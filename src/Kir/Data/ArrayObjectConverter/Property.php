@@ -59,7 +59,7 @@ class Property {
 	 * @throws Exception
 	 */
 	private function tryGetValueFromMethod() {
-		foreach($this->getGetterMethodNames() as $methodName) {
+		foreach($this->getPossibleGetterMethodNames() as $methodName) {
 			$refClass = new \ReflectionClass($this->object);
 			if($refClass->hasMethod($methodName)) {
 				$method = $refClass->getMethod($methodName);
@@ -96,7 +96,7 @@ class Property {
 	 * @throws Exception
 	 */
 	private function trySetValueThroughGuessedMethod($value) {
-		foreach($this->getSetterMethodNames() as $methodName) {
+		foreach($this->getPossibleSetterMethodNames() as $methodName) {
 			$refClass = new \ReflectionClass($this->object);
 			if($refClass->hasMethod($methodName)) {
 				$method = $refClass->getMethod($methodName);
@@ -113,7 +113,7 @@ class Property {
 	/**
 	 * @return string[]
 	 */
-	private function getGetterMethodNames() {
+	private function getPossibleGetterMethodNames() {
 		return array(
 			"get" . $this->property->getName(),
 			"get" . $this->getCamelCaseMethodName(),
@@ -124,7 +124,7 @@ class Property {
 	/**
 	 * @return string[]
 	 */
-	private function getSetterMethodNames() {
+	private function getPossibleSetterMethodNames() {
 		return array(
 			"set" . $this->property->getName(),
 			"set" . $this->getCamelCaseMethodName(),
