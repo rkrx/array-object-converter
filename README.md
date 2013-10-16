@@ -1,4 +1,5 @@
 array-object-converter
 ======================
 
-A module to copy data from an array to an object, vice versa. PHP 5.4+
+A module to copy data from an array into an object, vice versa. Requires PHP 5.4+.
+
