@@ -36,7 +36,7 @@ class PhpDocParser {
 	 */
 	private function parseValue($input) {
 		$matches = array();
-		$this->regExpMatch('/^(\w+)(\s+.*)?$/', $input, $matches);
+		$this->regExpMatch('/^([\w\\\\]+)(\s+.*)?$/', $input, $matches);
 		$value = $matches[0];
 		$optionsStr = array_key_exists(1, $matches) ? $matches[1] : null;
 		$options = array();
