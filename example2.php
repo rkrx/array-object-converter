@@ -1,16 +1,20 @@
 <?php
+namespace Example2;
+
+use Kir\Data\ArrayObjectConverter;
+
 require_once '_inc/autoloader.php';
 
 class Entity {
 	/**
 	 * @var int
-	 * @aoc-data-key id
+	 * @aoc-array-key id
 	 */
 	private $id = 456;
 
 	/**
 	 * @var int
-	 * @aoc-data-key name
+	 * @aoc-array-key name
 	 */
 	private $name = 'Hello World';
 
@@ -48,6 +52,6 @@ class Entity {
 }
 
 $entity = new Entity();
-$converter = new \Kir\Data\ArrayObjectConverter($entity);
+$converter = new ArrayObjectConverter($entity);
 $data = $converter->getArray();
 print_r($data);

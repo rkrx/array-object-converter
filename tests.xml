@@ -1,0 +1,19 @@
+<phpunit bootstrap="_inc/autoloader.php"
+		 backupGlobals="false"
+		 backupStaticAttributes="false"
+		 strict="true"
+		 verbose="true"
+		 timeoutForSmallTests="5">
+	<testsuites>
+		<testsuite name="ArrayObjectConverter">
+			<file>tests/Kir/Data/ArrayObjectConverter/Patterns/PatternTest.php</file>
+			<file>tests/Kir/Data/ArrayObjectConverter/PhpDocParser/ParameterDecoderTest.php</file>
+			<file>tests/Kir/Data/ArrayObjectConverter/PhpDocParser/AnnotationParserTest.php</file>
+			<file>tests/Kir/Data/ArrayObjectConverter/PhpDocParserTest.php</file>
+			<file>tests/Kir/Data/ArrayObjectConverter/PhpDocDefinitionProviderTest.php</file>
+			<file>tests/Kir/Data/ArrayObjectConverter/GetterTest.php</file>
+			<file>tests/Kir/Data/ArrayObjectConverter/SetterTest.php</file>
+			<!-- <file>tests/Kir/Data/ArrayObjectConverterTest.php</file> -->
+		</testsuite>
+	</testsuites>
+</phpunit>

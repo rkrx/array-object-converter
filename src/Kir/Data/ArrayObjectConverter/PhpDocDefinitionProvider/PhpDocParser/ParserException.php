@@ -1,5 +1,5 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\PhpDocParser;
+namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser;
 
 use Kir\Data\ArrayObjectConverter\Exception;
 

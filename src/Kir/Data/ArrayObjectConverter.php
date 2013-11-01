@@ -1,11 +1,19 @@
 <?php
 namespace Kir\Data;
 
+use Kir\Data\ArrayObjectConverter\DefinitionProvider;
+use Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider;
+
 class ArrayObjectConverter {
 	/**
 	 * @var object
 	 */
 	private $object;
+
+	/**
+	 * @var DefinitionProvider
+	 */
+	private $definitionProvider;
 
 	/**
 	 * @var ArrayObjectConverter\Filters
@@ -19,9 +27,14 @@ class ArrayObjectConverter {
 
 	/**
 	 * @param object $object
+	 * @param DefinitionProvider $definitionProvider
 	 */
-	public function __construct($object) {
+	public function __construct($object, DefinitionProvider $definitionProvider=null) {
 		$this->object = $object;
+		if($definitionProvider === null) {
+			$definitionProvider = new PhpDocDefinitionProvider($object);
+		}
+		$this->definitionProvider = $definitionProvider;
 		$this->setterFilters = new ArrayObjectConverter\Filters();
 		$this->getterFilters = new ArrayObjectConverter\Filters();
 	}
@@ -31,7 +44,7 @@ class ArrayObjectConverter {
 	 * @return $this
 	 */
 	public function setArray(array $data) {
-		$setter = new ArrayObjectConverter\Setter($this->object, $this->setterFilters);
+		$setter = new ArrayObjectConverter\SetterHandler($this->object, $this->definitionProvider, $this->setterFilters);
 		$setter->set($data);
 		return $this;
 	}
@@ -40,7 +53,7 @@ class ArrayObjectConverter {
 	 * @return array
 	 */
 	public function getArray() {
-		$getter = new ArrayObjectConverter\Getter($this->object, $this->getterFilters);
+		$getter = new ArrayObjectConverter\GetterHandler($this->object, $this->definitionProvider, $this->getterFilters);
 		return $getter->get();
 	}
 

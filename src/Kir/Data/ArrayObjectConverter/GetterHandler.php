@@ -1,11 +1,13 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter;
 
-class Getter {
+use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
+
+class GetterHandler {
 	/**
 	 * @var object
 	 */
-	private $obj=null;
+	private $object=null;
 
 	/**
 	 * @var Filters
@@ -13,21 +15,33 @@ class Getter {
 	private $filters=null;
 
 	/**
-	 * @param object $obj
+	 * @var DefinitionProvider
+	 */
+	private $definitionProvider=null;
+
+	/**
+	 * @var PropertyReader
+	 */
+	private $reader=null;
+	
+	/**
+	 * @param object $object
+	 * @param DefinitionProvider $definitionProvider
 	 * @param Filters $filters
 	 */
-	public function __construct($obj, Filters $filters) {
-		$this->obj = $obj;
+	public function __construct($object, DefinitionProvider $definitionProvider, Filters $filters) {
+		$this->object = $object;
 		$this->filters = $filters;
+		$this->definitionProvider = $definitionProvider;
+		$this->reader = new PropertyReader();
 	}
 
 	/**
-	 * @return object
+	 * @return array
 	 */
 	public function get() {
 		$result = array();
-		$factory = new PropertyFactory($this->obj);
-		$properties = $factory->getAll();
+		$properties = $this->definitionProvider->getProperties();
 		foreach($properties as $property) {
 			$result = $this->handleProperty($property, $result);
 		}
@@ -40,11 +54,11 @@ class Getter {
 	 * @return array
 	 */
 	private function handleProperty(Property $property, array $result) {
-		if($property->annotations()->has('aoc-data-key')) {
-			$annotation = $property->annotations()->getFirst('aoc-data-key');
-			$annotationValue = $annotation->getValue();
-			$value = $property->getValue();
+		if($property->annotations()->has('array-key')) {
+			$annotation = $property->annotations()->getFirst('array-key');
+			$value = $this->reader->getValue($this->object, $property);
 			$value = $this->applyFilters($property, $value);
+			$annotationValue = $annotation->getValue();
 			$result[$annotationValue] = $value;
 		}
 		return $result;
@@ -57,7 +71,10 @@ class Getter {
 	 * @return mixed
 	 */
 	private function applyFilters(Property $property, $value) {
-		$getterFilters = $property->annotations()->get('aoc-getter-filter');
+		if(!$property->annotations()->has('getter-filter')) {
+			return $value;
+		}
+		$getterFilters = $property->annotations()->getAll('getter-filter');
 		foreach($getterFilters as $getterFilter) {
 			$filterName = $getterFilter->getValue();
 			if(!$this->filters->has($filterName)) {

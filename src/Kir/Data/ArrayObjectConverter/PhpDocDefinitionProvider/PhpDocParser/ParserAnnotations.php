@@ -1,24 +1,25 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter;
+namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser;
 
-class Annotations {
+use Kir\Data\ArrayObjectConverter\Exception;
+use Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser\ParserAnnotation;
+
+class ParserAnnotations {
 	/**
-	 * @var Annotation[]
+	 * @var ParserAnnotation[]
 	 */
 	private $annotations = array();
 
 	/**
-	 * @param array $data
+	 * @param ParserAnnotation[] $annotations
 	 */
-	public function __construct(array $data) {
-		$this->annotations = array();
-		foreach($data as $param) {
-			$key = $param['key'];
-			$value = $param['value'];
-			if(!array_key_exists($key, $data)) {
-				$this->annotations[$key] = array();
+	public function __construct(array $annotations) {
+		foreach($annotations as $annotation) {
+			$key = $annotation->getKey();
+			if(!array_key_exists($key, $this->annotations)) {
+				$this->annotations[$key] = [];
 			}
-			$this->annotations[$key][] = new Annotation($key, $value);
+			$this->annotations[$key][] = $annotation;
 		}
 	}
 
@@ -32,7 +33,7 @@ class Annotations {
 
 	/**
 	 * @param string $name
-	 * @return Annotation
+	 * @return ParserAnnotation
 	 */
 	public function getFirst($name) {
 		if($this->has($name)) {
@@ -46,7 +47,7 @@ class Annotations {
 	/**
 	 * @param string $name
 	 * @throws Exception
-	 * @return Annotation[]
+	 * @return ParserAnnotation[]
 	 */
 	public function get($name) {
 		if($this->has($name)) {

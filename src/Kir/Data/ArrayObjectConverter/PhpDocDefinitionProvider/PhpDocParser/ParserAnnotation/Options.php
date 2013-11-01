@@ -1,11 +1,18 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\Annotation;
+namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser\ParserAnnotation;
 
-class Options {
+class Options implements \Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options {
 	/**
 	 * @var array
 	 */
-	private $options=array();
+	private $options = array();
+
+	/**
+	 * @param array $options
+	 */
+	public function __construct(array $options = []) {
+		$this->options = $options;
+	}
 
 	/**
 	 * @param string $name
@@ -37,8 +44,8 @@ class Options {
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function get($name, $default=null) {
-		if($this->has($name)) {
+	public function get($name, $default = null) {
+		if ($this->has($name)) {
 			return $this->options[$name];
 		}
 		return $default;

@@ -1,24 +1,28 @@
 <?php
+namespace Example3;
+
 require_once '_inc/autoloader.php';
 
-use \Kir\Data\ArrayObjectConverter;
+use Kir\Data\ArrayObjectConverter;
+use Kir\Data\ArrayObjectConverter\Filter\Func;
+use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
 
 class Entity {
 	/**
 	 * @var int
-	 * @aoc-data-key id
+	 * @aoc-array-key id
 	 */
 	private $id = 456;
 
 	/**
 	 * @var int
-	 * @aoc-data-key name
+	 * @aoc-array-key name
 	 */
 	private $name = 'Hello World';
 
 	/**
-	 * @var DateTime
-	 * @aoc-data-key date
+	 * @var \DateTime
+	 * @aoc-array-key date
 	 * @aoc-getter-filter datetime format="c"
 	 * @aoc-setter-filter datetime format="c"
 	 */
@@ -57,16 +61,16 @@ class Entity {
 	}
 
 	/**
-	 * @param DateTime $date
+	 * @param \DateTime $date
 	 * @return $this
 	 */
-	public function setDate(DateTime $date) {
+	public function setDate(\DateTime $date) {
 		$this->date = $date;
 		return $this;
 	}
 
 	/**
-	 * @return DateTime
+	 * @return \DateTime
 	 */
 	public function getDate() {
 		return $this->date;
@@ -80,13 +84,13 @@ class LocalArrayObjectConverter extends ArrayObjectConverter {
 	public function __construct($object) {
 		parent::__construct($object);
 
-		$this->setterFilters()->add('datetime', function ($value, ArrayObjectConverter\Annotation\Options $options) {
-			return DateTime::createFromFormat($options->get('format'), $value);
-		});
+		$this->setterFilters()->add('datetime', new Func(function ($value, Options $options) {
+			return \DateTime::createFromFormat($options->get('format'), $value);
+		}));
 
-		$this->getterFilters()->add('datetime', function (DateTime $value, ArrayObjectConverter\Annotation\Options $options) {
+		$this->getterFilters()->add('datetime', new Func(function (\DateTime $value, Options $options) {
 			return $value->format($options->get('format'));
-		});
+		}));
 	}
 }
 

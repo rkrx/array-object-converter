@@ -1,9 +1,11 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter;
 
+use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
+
 class Filters {
 	/**
-	 * @var callable[]
+	 * @var Filter[]
 	 */
 	private $filters=array();
 
@@ -17,16 +19,16 @@ class Filters {
 
 	/**
 	 * @param string $name
-	 * @param callable $func
+	 * @param Filter $func
 	 * @return $this
 	 */
-	public function add($name, callable $func) {
+	public function add($name, Filter $func) {
 		$this->filters[$name] = $func;
 		return $this;
 	}
 
 	/**
-	 * @return callable[]
+	 * @return Filter[]
 	 */
 	public function getAll() {
 		return $this->filters;
@@ -43,11 +45,11 @@ class Filters {
 	/**
 	 * @param string $name
 	 * @param mixed $value
-	 * @param Annotation\Options $options
+	 * @param Options $options
 	 * @return mixed
 	 */
-	public function filter($name, $value, Annotation\Options $options) {
-		$callable = $this->filters[$name];
-		return $callable($value, $options);
+	public function filter($name, $value, Options $options) {
+		$filter = $this->filters[$name];
+		return $filter->filter($value, $options);
 	}
 }

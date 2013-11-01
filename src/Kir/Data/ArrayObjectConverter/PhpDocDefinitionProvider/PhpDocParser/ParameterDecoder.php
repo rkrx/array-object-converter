@@ -1,5 +1,6 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\PhpDocParser;
+namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser;
+
 /**
  * Class ParameterDecoder
  * TODO Not error prove
