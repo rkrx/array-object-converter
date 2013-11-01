@@ -1,8 +1,6 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser;
 
-use Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser\ParameterDecoder;
-
 class ParameterDecoderTest extends \PHPUnit_Framework_TestCase {
 	public function testSingleNull() {
 		$decoder = new ParameterDecoder();

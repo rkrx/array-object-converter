@@ -47,7 +47,7 @@ class GetterTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testPrivateFilter() {
 		$testObj = new TestObj4();
-		$testObj->setProperty = "this is a test";
+		$testObj->setProperty("this is a test");
 		
 		$filters = new Filters();
 		$filters->add('uppercase', new Func(function ($input) {

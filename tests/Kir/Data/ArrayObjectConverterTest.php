@@ -35,10 +35,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('1981-09-29', $object->getBirthdate()->format('Y-m-d'));
 	}
 	
-	public function testRecursiveSetter() {
-		$this->markTestSkipped('must be revisited.');
-		return;
-		
+	/*public function testRecursiveSetter() {
 		$data = [
 			'sub' => [
 				'id' => 1234,
@@ -49,7 +46,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 		$this->createAoc($object)->setArray($data);
 		
 		$this->assertEquals(1234, $object->subObj->id);
-	}
+	}*/
 
 	/**
 	 * @param object $object

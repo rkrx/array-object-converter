@@ -3,9 +3,9 @@ namespace Example4;
 
 require_once '_inc/autoloader.php';
 
-use \Kir\Data\ArrayObjectConverter;
-use \Kir\Data\ArrayObjectConverter\Filter\Func;
-use \Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser\Annotation\Options;
+use Kir\Data\ArrayObjectConverter;
+use Kir\Data\ArrayObjectConverter\Filter\Func;
+use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
 
 class Entity {
 	/**
