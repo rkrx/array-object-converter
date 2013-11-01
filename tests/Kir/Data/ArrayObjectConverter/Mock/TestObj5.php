@@ -6,21 +6,21 @@ class TestObj5 {
 	 * @var int
 	 * @aoc-array-key id
 	 */
-	private $id=0;
-	
+	private $id = 0;
+
 	/**
 	 * @var string
 	 * @aoc-array-key name
 	 */
-	private $name="";
-	
+	private $name = "";
+
 	/**
 	 * @var \DateTime
 	 * @aoc-array-key birthdate
 	 * @aoc-getter-filter datetime format="Y-m-d"
 	 * @aoc-setter-filter datetime format="Y-m-d"
 	 */
-	private $birthdate=null;
+	private $birthdate = null;
 
 	/**
 	 */

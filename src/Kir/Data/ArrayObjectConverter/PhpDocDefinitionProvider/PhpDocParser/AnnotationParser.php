@@ -11,7 +11,7 @@ class AnnotationParser {
 	 */
 	public function parseLine($line) {
 		$pattern = Pattern::create('^([\\w\\-]+)(\\s+.+)?$', 'iu')->setSubject($line);
-		if($pattern->isMatching()) {
+		if ($pattern->isMatching()) {
 			$data = $pattern->getArray();
 			$data = array_map('trim', $data);
 			$key = $data[0];
@@ -23,7 +23,7 @@ class AnnotationParser {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @param string $input
 	 * @return string
@@ -32,12 +32,12 @@ class AnnotationParser {
 		$options = [];
 		$value = $input;
 		$pattern = Pattern::create('^([\w\\\\]+)(\s+.*)?$')->setSubject($input);
-		if($pattern->isMatching()) {
+		if ($pattern->isMatching()) {
 			$matches = $pattern->getArray();
 			$matches = array_map('trim', $matches);
 			$value = $matches[0];
 			$optionsStr = count($matches) > 1 ? $matches[1] : null;
-			if($optionsStr !== null) {
+			if ($optionsStr !== null) {
 				$options = $this->parseOptions($optionsStr);
 			}
 		}

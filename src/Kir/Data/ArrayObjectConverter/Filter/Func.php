@@ -8,7 +8,7 @@ class Func implements Filter {
 	/**
 	 * @var callable
 	 */
-	private $callable=null;
+	private $callable = null;
 
 	/**
 	 * @param callable $callable

@@ -7,7 +7,7 @@ class Filters {
 	/**
 	 * @var Filter[]
 	 */
-	private $filters=array();
+	private $filters = array();
 
 	/**
 	 * @param string $name

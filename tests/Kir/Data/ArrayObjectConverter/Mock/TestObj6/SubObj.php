@@ -6,5 +6,5 @@ class SubObj {
 	 * @var int
 	 * @aoc-array-key id
 	 */
-	public $id=0;
+	public $id = 0;
 } 

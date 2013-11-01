@@ -26,7 +26,7 @@ class ParserAnnotation implements Annotation {
 	public function __construct($key, array $value) {
 		$this->key = $key;
 		$this->value = array_key_exists('value', $value) ? $value['value'] : null;
-		$options = array_key_exists('options', $value) ? (array) $value['options'] : [];
+		$options = array_key_exists('options', $value) ? (array)$value['options'] : [];
 		$this->options = new ParserAnnotation\Options($options);
 	}
 

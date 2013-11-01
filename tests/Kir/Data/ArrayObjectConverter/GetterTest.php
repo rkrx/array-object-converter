@@ -11,51 +11,57 @@ class GetterTest extends \PHPUnit_Framework_TestCase {
 	public function testPublic() {
 		$testObj = new TestObj1();
 		$testObj->property = 1234;
-		
+
 		$getter = $this->createHandler($testObj, new Filters());
 		$values = $getter->get();
-		
+
 		$this->assertArrayHasKey('data', $values);
 		$this->assertEquals(1234, $values['data']);
 	}
-	
+
 	public function testPrivate() {
 		$testObj = new TestObj2();
 		$testObj->setProperty(1234);
-		
+
 		$getter = $this->createHandler($testObj, new Filters());
 		$values = $getter->get();
-		
+
 		$this->assertArrayHasKey('data', $values);
 		$this->assertEquals(1234, $values['data']);
 	}
-	
+
 	public function testPublicFilter() {
 		$testObj = new TestObj3();
 		$testObj->property = "this is a test";
-		
+
 		$filters = new Filters();
-		$filters->add('uppercase', new Func(function ($input) {
+		$filters->add(
+			'uppercase',
+			new Func(function ($input) {
 				return strtoupper($input);
-			}));
+			})
+		);
 		$getter = $this->createHandler($testObj, $filters);
 		$values = $getter->get();
-		
+
 		$this->assertArrayHasKey('data', $values);
 		$this->assertEquals("THIS IS A TEST", $values['data']);
 	}
-	
+
 	public function testPrivateFilter() {
 		$testObj = new TestObj4();
 		$testObj->setProperty("this is a test");
-		
+
 		$filters = new Filters();
-		$filters->add('uppercase', new Func(function ($input) {
+		$filters->add(
+			'uppercase',
+			new Func(function ($input) {
 				return strtoupper($input);
-			}));
+			})
+		);
 		$getter = $this->createHandler($testObj, $filters);
 		$values = $getter->get();
-		
+
 		$this->assertArrayHasKey('data', $values);
 		$this->assertEquals("THIS IS A TEST", $values['data']);
 	}

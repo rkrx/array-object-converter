@@ -24,11 +24,14 @@ class SetterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPublicFilter() {
 		$testObj = new TestObj3();
-		
+
 		$filters = new Filters();
-		$filters->add('lowercase', new Func(function ($input) {
+		$filters->add(
+			'lowercase',
+			new Func(function ($input) {
 				return strtolower($input);
-			}));
+			})
+		);
 		$setter = $this->createHandler($testObj, $filters);
 		$setter->set(['data' => 'THIS IS A TEST']);
 
@@ -37,11 +40,14 @@ class SetterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testPrivateFilter() {
 		$testObj = new TestObj4();
-		
+
 		$filters = new Filters();
-		$filters->add('lowercase', new Func(function ($input) {
+		$filters->add(
+			'lowercase',
+			new Func(function ($input) {
 				return strtolower($input);
-			}));
+			})
+		);
 		$setter = $this->createHandler($testObj, $filters);
 		$setter->set(['data' => 'THIS IS A TEST']);
 

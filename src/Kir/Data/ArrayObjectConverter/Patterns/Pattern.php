@@ -7,25 +7,25 @@ class Pattern {
 	 * @param string $flags
 	 * @return static
 	 */
-	public static function create($pattern, $flags='') {
+	public static function create($pattern, $flags = '') {
 		return new static($pattern, $flags);
 	}
 
 	/**
 	 * @var string
 	 */
-	private $pattern=null;
+	private $pattern = null;
 
 	/**
 	 * @var string
 	 */
-	private $subject=null;
+	private $subject = null;
 
 	/**
 	 * @param string $pattern
 	 * @param string $flags
 	 */
-	public function __construct($pattern, $flags='') {
+	public function __construct($pattern, $flags = '') {
 		$pattern = $this->normalizePattern($pattern, $flags);
 		$this->pattern = $pattern;
 	}
@@ -51,7 +51,7 @@ class Pattern {
 	 */
 	public function getArray() {
 		$matches = [];
-		if(preg_match($this->pattern, $this->subject, $matches)) {
+		if (preg_match($this->pattern, $this->subject, $matches)) {
 			array_shift($matches);
 			return $matches;
 		}

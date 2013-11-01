@@ -12,12 +12,12 @@ class PropertyReader extends PropertyAccessor {
 	public function getValue($object, Property $property) {
 		$refClass = new \ReflectionClass($object);
 		$refProperty = $refClass->getProperty($property->getName());
-		if($refProperty->isPublic()) {
+		if ($refProperty->isPublic()) {
 			return $refProperty->getValue($object);
 		}
-		if($property->annotations()->has('array-getBy')) {
+		if ($property->annotations()->has('array-getBy')) {
 			$methodName = $property->annotations()->getFirst('array-getBy');
-			return $this->getValueFromMethod($refClass, $object, $methodName);			
+			return $this->getValueFromMethod($refClass, $object, $methodName);
 		}
 		return $this->tryGetValueFromGuessedMethod($object, $refProperty);
 	}
@@ -30,7 +30,7 @@ class PropertyReader extends PropertyAccessor {
 	 * @return mixed
 	 */
 	private function getValueFromMethod(\ReflectionClass $refClass, $object, $methodName) {
-		if(!$refClass->hasMethod($methodName)) {
+		if (!$refClass->hasMethod($methodName)) {
 			throw new \Exception("Missing method {$methodName}");
 		}
 		return $refClass->getMethod($methodName)->invoke($object);
@@ -43,11 +43,11 @@ class PropertyReader extends PropertyAccessor {
 	 * @return mixed
 	 */
 	private function tryGetValueFromGuessedMethod($object, \ReflectionProperty $property) {
-		foreach($this->getPossibleGetterMethodNames($property) as $methodName) {
+		foreach ($this->getPossibleGetterMethodNames($property) as $methodName) {
 			$refClass = new \ReflectionClass($object);
-			if($refClass->hasMethod($methodName)) {
+			if ($refClass->hasMethod($methodName)) {
 				$method = $refClass->getMethod($methodName);
-				if(count($method->getParameters()) > 0) {
+				if (count($method->getParameters()) > 0) {
 					continue;
 				}
 				return $method->invoke($object);

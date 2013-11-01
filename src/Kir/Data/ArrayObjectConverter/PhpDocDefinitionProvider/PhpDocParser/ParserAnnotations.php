@@ -14,9 +14,9 @@ class ParserAnnotations {
 	 * @param ParserAnnotation[] $annotations
 	 */
 	public function __construct(array $annotations) {
-		foreach($annotations as $annotation) {
+		foreach ($annotations as $annotation) {
 			$key = $annotation->getKey();
-			if(!array_key_exists($key, $this->annotations)) {
+			if (!array_key_exists($key, $this->annotations)) {
 				$this->annotations[$key] = [];
 			}
 			$this->annotations[$key][] = $annotation;
@@ -36,7 +36,7 @@ class ParserAnnotations {
 	 * @return ParserAnnotation
 	 */
 	public function getFirst($name) {
-		if($this->has($name)) {
+		if ($this->has($name)) {
 			$annotations = $this->get($name);
 			$firstAnnotation = array_shift($annotations);
 			return $firstAnnotation;
@@ -50,9 +50,9 @@ class ParserAnnotations {
 	 * @return ParserAnnotation[]
 	 */
 	public function get($name) {
-		if($this->has($name)) {
+		if ($this->has($name)) {
 			$annotations = $this->annotations[$name];
-			if(!is_array($annotations)) {
+			if (!is_array($annotations)) {
 				throw new Exception("Invalid annotation");
 			}
 			return $annotations;

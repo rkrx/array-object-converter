@@ -7,22 +7,22 @@ class SetterHandler {
 	/**
 	 * @var object
 	 */
-	private $obj=null;
+	private $obj = null;
 
 	/**
 	 * @var Filters
 	 */
-	private $filters=null;
+	private $filters = null;
 
 	/**
 	 * @var DefinitionProvider
 	 */
-	private $definitionProvider=null;
+	private $definitionProvider = null;
 
 	/**
 	 * @var PropertyReader
 	 */
-	private $writer=null;
+	private $writer = null;
 
 	/**
 	 * @param object $obj
@@ -41,7 +41,7 @@ class SetterHandler {
 	 * @return $this
 	 */
 	public function set(array $data) {
-		foreach($data as $key => $value) {
+		foreach ($data as $key => $value) {
 			$this->findProperty($key, $value);
 		}
 		return $this;
@@ -53,7 +53,7 @@ class SetterHandler {
 	 */
 	private function findProperty($key, $value) {
 		$properties = $this->definitionProvider->getProperties();
-		foreach($properties as $property) {
+		foreach ($properties as $property) {
 			// Suche performanter gestalten
 			$this->handleProperty($property, $key, $value);
 		}
@@ -65,9 +65,9 @@ class SetterHandler {
 	 * @param $value
 	 */
 	private function handleProperty(Property $property, $name, $value) {
-		if($property->annotations()->has('array-key')) {
+		if ($property->annotations()->has('array-key')) {
 			$dataKey = $property->annotations()->getFirst('array-key')->getValue();
-			if($dataKey == $name) {
+			if ($dataKey == $name) {
 				$value = $this->applyFilters($property, $value);
 				$this->writer->setValue($this->obj, $property, $value);
 			}
@@ -81,13 +81,13 @@ class SetterHandler {
 	 * @return mixed
 	 */
 	private function applyFilters(Property $property, $value) {
-		if(!$property->annotations()->has('setter-filter')) {
+		if (!$property->annotations()->has('setter-filter')) {
 			return $value;
 		}
 		$setterFilters = $property->annotations()->getAll('setter-filter');
-		foreach($setterFilters as $setterFilter) {
+		foreach ($setterFilters as $setterFilter) {
 			$filterName = $setterFilter->getValue();
-			if(!$this->filters->has($filterName)) {
+			if (!$this->filters->has($filterName)) {
 				throw new Exception("Setter-filter missing: {$filterName}");
 			}
 			$value = $this->filters->filter($filterName, $value, $setterFilter->options());

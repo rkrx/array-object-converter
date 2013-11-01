@@ -7,14 +7,14 @@ class AnnotationParserTest extends \PHPUnit_Framework_TestCase {
 		$annotation = $parser->parseLine('param');
 		$this->assertEquals('param', $annotation->getKey());
 	}
-	
+
 	public function testParameterized() {
 		$parser = new AnnotationParser();
 		$annotation = $parser->parseLine('var int');
 		$this->assertEquals('var', $annotation->getKey());
 		$this->assertEquals('int', $annotation->getValue());
 	}
-	
+
 	public function testParameterizedWithOptions() {
 		$parser = new AnnotationParser();
 		$annotation = $parser->parseLine('var int test=1234');

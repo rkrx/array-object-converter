@@ -12,9 +12,9 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 		$object->setId(123);
 		$object->setName('Max Musterman');
 		$object->setBirthdate(\DateTime::createFromFormat('Y-m-d', '1981-09-29'));
-		
+
 		$data = $this->createAoc($object)->getArray();
-		
+
 		$this->assertArrayHasKey('id', $data);
 		$this->assertArrayHasKey('name', $data);
 		$this->assertArrayHasKey('birthdate', $data);
@@ -26,15 +26,15 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 			'name' => 'Max Musterman',
 			'birthdate' => '1981-09-29',
 		];
-		
+
 		$object = new TestObj5();
 		$this->createAoc($object)->setArray($data);
-		
+
 		$this->assertEquals(123, $object->getId());
 		$this->assertEquals('Max Musterman', $object->getName());
 		$this->assertEquals('1981-09-29', $object->getBirthdate()->format('Y-m-d'));
 	}
-	
+
 	/*public function testRecursiveSetter() {
 		$data = [
 			'sub' => [
@@ -54,12 +54,18 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	 */
 	private function createAoc($object) {
 		$aoc = new ArrayObjectConverter($object);
-		$aoc->getterFilters()->add('datetime', new Func(function (\DateTime $input, Options $options) {
+		$aoc->getterFilters()->add(
+			'datetime',
+			new Func(function (\DateTime $input, Options $options) {
 				return $input->format($options->get('format'));
-			}));
-		$aoc->setterFilters()->add('datetime', new Func(function ($input, Options $options) {
+			})
+		);
+		$aoc->setterFilters()->add(
+			'datetime',
+			new Func(function ($input, Options $options) {
 				return \DateTime::createFromFormat($options->get('format'), $input);
-			}));
+			})
+		);
 		return $aoc;
 	}
 } 

@@ -29,9 +29,9 @@ class ArrayObjectConverter {
 	 * @param object $object
 	 * @param DefinitionProvider $definitionProvider
 	 */
-	public function __construct($object, DefinitionProvider $definitionProvider=null) {
+	public function __construct($object, DefinitionProvider $definitionProvider = null) {
 		$this->object = $object;
-		if($definitionProvider === null) {
+		if ($definitionProvider === null) {
 			$definitionProvider = new PhpDocDefinitionProvider($object);
 		}
 		$this->definitionProvider = $definitionProvider;

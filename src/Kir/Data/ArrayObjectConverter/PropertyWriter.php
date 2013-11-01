@@ -13,7 +13,7 @@ class PropertyWriter extends PropertyAccessor {
 	public function setValue($object, Property $property, $value) {
 		$refClass = new \ReflectionClass($object);
 		$refProperty = $refClass->getProperty($property->getName());
-		if($refProperty->isPublic()) {
+		if ($refProperty->isPublic()) {
 			$refProperty->setValue($object, $value);
 		} else {
 			$this->trySetValueThroughMethod($refClass, $object, $property, $value);
@@ -29,7 +29,7 @@ class PropertyWriter extends PropertyAccessor {
 	 * @throws \Exception
 	 */
 	private function trySetValueThroughMethod(\ReflectionClass $refClass, $object, Property $property, $value) {
-		if($property->annotations()->has('array-setBy')) {
+		if ($property->annotations()->has('array-setBy')) {
 			$methodName = $property->annotations()->getFirst('array-setBy');
 			$this->setValueThroughMethod($refClass, $object, $methodName, $value);
 		} else {
@@ -46,7 +46,7 @@ class PropertyWriter extends PropertyAccessor {
 	 * @throws \Exception
 	 */
 	private function setValueThroughMethod(\ReflectionClass $refClass, $object, $methodName, $value) {
-		if(!$refClass->hasMethod($methodName)) {
+		if (!$refClass->hasMethod($methodName)) {
 			throw new \Exception("Missing method {$methodName}");
 		}
 		$refClass->getMethod($methodName)->invokeArgs($object, [$value]);
@@ -59,11 +59,11 @@ class PropertyWriter extends PropertyAccessor {
 	 * @throws Exception
 	 */
 	private function trySetValueThroughGuessedMethod($object, \ReflectionProperty $refProperty, $value) {
-		foreach($this->getPossibleSetterMethodNames($refProperty) as $methodName) {
+		foreach ($this->getPossibleSetterMethodNames($refProperty) as $methodName) {
 			$refClass = new \ReflectionClass($object);
-			if($refClass->hasMethod($methodName)) {
+			if ($refClass->hasMethod($methodName)) {
 				$method = $refClass->getMethod($methodName);
-				if(count($method->getParameters()) != 1) {
+				if (count($method->getParameters()) != 1) {
 					continue;
 				}
 				$method->invoke($object, $value);

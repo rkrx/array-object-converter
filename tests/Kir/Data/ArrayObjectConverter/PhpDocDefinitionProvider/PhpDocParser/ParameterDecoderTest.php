@@ -70,10 +70,10 @@ class ParameterDecoderTest extends \PHPUnit_Framework_TestCase {
 	 * @return mixed
 	 */
 	private function getValue($params, $name) {
-		if(!is_array($params)) {
+		if (!is_array($params)) {
 			return null;
 		}
-		if(!array_key_exists($name, $params)) {
+		if (!array_key_exists($name, $params)) {
 			return null;
 		}
 		return $params[$name];

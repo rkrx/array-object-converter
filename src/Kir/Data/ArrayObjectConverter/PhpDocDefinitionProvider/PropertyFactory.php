@@ -9,7 +9,7 @@ class PropertyFactory {
 	/**
 	 * @var object
 	 */
-	private $obj=null;
+	private $obj = null;
 
 	/**
 	 * @param object $obj
@@ -24,7 +24,7 @@ class PropertyFactory {
 	public function getAll() {
 		$refObj = new \ReflectionClass($this->obj);
 		$properties = array();
-		foreach($refObj->getProperties() as $refProperty) {
+		foreach ($refObj->getProperties() as $refProperty) {
 			$name = $refProperty->getName();
 			$doc = $refProperty->getDocComment();
 			$annotations = $this->parseDoc($doc);

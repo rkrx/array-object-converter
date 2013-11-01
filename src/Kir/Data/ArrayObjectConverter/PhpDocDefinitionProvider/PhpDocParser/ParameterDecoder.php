@@ -9,14 +9,14 @@ class ParameterDecoder {
 	/**
 	 * @var array
 	 */
-	private $result=array();
+	private $result = array();
 
 	/**
 	 * @param string $input
 	 * @return array
 	 */
 	public function decode($input) {
-		if(strlen($input) > 0) {
+		if (strlen($input) > 0) {
 			$this->extractKey($input);
 		}
 		return $this->result;
@@ -27,7 +27,7 @@ class ParameterDecoder {
 	 */
 	private function extractKey($input) {
 		$input = ltrim($input);
-		if(preg_match('/^\w+\\s*=/', $input)) {
+		if (preg_match('/^\w+\\s*=/', $input)) {
 			list($key, $rest) = explode('=', $input, 2);
 			list($value, $rest) = $this->extractValue($rest);
 			$this->result[$key] = $value;
@@ -42,10 +42,10 @@ class ParameterDecoder {
 	 */
 	private function extractValue($input) {
 		$input = ltrim($input);
-		if(preg_match('/^\\"/', $input)) {
+		if (preg_match('/^\\"/', $input)) {
 			return $this->extractString($input);
 		}
-		if(preg_match('/^(true|false|\\d+|\\d*\\.\\d+|null)/', $input)) {
+		if (preg_match('/^(true|false|\\d+|\\d*\\.\\d+|null)/', $input)) {
 			return $this->extractScalarValue($input);
 		}
 		throw new ParserException();
@@ -69,9 +69,9 @@ class ParameterDecoder {
 	private function extractScalarValue($input) {
 		list($value, $rest) = $this->regExpGet('/^(true|false|null|\\d*\\.\\d+|\\d+)(.*)$/i', $input);
 		$value = strtolower($value);
-		if($value == 'true' || $value == 'false') {
+		if ($value == 'true' || $value == 'false') {
 			$value = $value == 'true';
-		} elseif($value == 'null') {
+		} elseif ($value == 'null') {
 			$value = null;
 		}
 		return array($value, $rest);
@@ -83,14 +83,14 @@ class ParameterDecoder {
 	 */
 	private function tryNextParam($input) {
 		$input = trim($input);
-		if(substr($input, 0, 1) == ',') {
+		if (substr($input, 0, 1) == ',') {
 			// One more parameter
 			$input = ltrim($input, ',');
 			$this->extractKey($input);
-		} elseif(substr($input, 0, 1) == '#') {
+		} elseif (substr($input, 0, 1) == '#') {
 			// Comment
 			return;
-		} elseif($input != '') {
+		} elseif ($input != '') {
 			throw new ParserException("Unexpected end near \"{$input}\"");
 		}
 	}

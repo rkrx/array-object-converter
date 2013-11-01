@@ -15,7 +15,7 @@ class PhpDocParser {
 	public function __construct() {
 		$this->annotationParser = new AnnotationParser();
 	}
-	
+
 	/**
 	 * @param string $input
 	 * @return PhpDocParser\ParserAnnotation[]
@@ -24,8 +24,8 @@ class PhpDocParser {
 		$result = [];
 		$lines = explode("\n", $input);
 		$pattern = Pattern::create('^\\s*\\*\\s*@([\\w\\-]+.*)$', 'iu');
-		foreach($lines as $line) {
-			if($pattern->setSubject($line)->isMatching()) {
+		foreach ($lines as $line) {
+			if ($pattern->setSubject($line)->isMatching()) {
 				$string = $pattern->getFirst();
 				$annotation = $this->annotationParser->parseLine($string);
 				$result[] = $annotation;

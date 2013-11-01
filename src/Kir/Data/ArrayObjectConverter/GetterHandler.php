@@ -7,23 +7,23 @@ class GetterHandler {
 	/**
 	 * @var object
 	 */
-	private $object=null;
+	private $object = null;
 
 	/**
 	 * @var Filters
 	 */
-	private $filters=null;
+	private $filters = null;
 
 	/**
 	 * @var DefinitionProvider
 	 */
-	private $definitionProvider=null;
+	private $definitionProvider = null;
 
 	/**
 	 * @var PropertyReader
 	 */
-	private $reader=null;
-	
+	private $reader = null;
+
 	/**
 	 * @param object $object
 	 * @param DefinitionProvider $definitionProvider
@@ -42,7 +42,7 @@ class GetterHandler {
 	public function get() {
 		$result = array();
 		$properties = $this->definitionProvider->getProperties();
-		foreach($properties as $property) {
+		foreach ($properties as $property) {
 			$result = $this->handleProperty($property, $result);
 		}
 		return $result;
@@ -54,7 +54,7 @@ class GetterHandler {
 	 * @return array
 	 */
 	private function handleProperty(Property $property, array $result) {
-		if($property->annotations()->has('array-key')) {
+		if ($property->annotations()->has('array-key')) {
 			$annotation = $property->annotations()->getFirst('array-key');
 			$value = $this->reader->getValue($this->object, $property);
 			$value = $this->applyFilters($property, $value);
@@ -71,13 +71,13 @@ class GetterHandler {
 	 * @return mixed
 	 */
 	private function applyFilters(Property $property, $value) {
-		if(!$property->annotations()->has('getter-filter')) {
+		if (!$property->annotations()->has('getter-filter')) {
 			return $value;
 		}
 		$getterFilters = $property->annotations()->getAll('getter-filter');
-		foreach($getterFilters as $getterFilter) {
+		foreach ($getterFilters as $getterFilter) {
 			$filterName = $getterFilter->getValue();
-			if(!$this->filters->has($filterName)) {
+			if (!$this->filters->has($filterName)) {
 				throw new Exception("Getter-filter missing: {$filterName}");
 			}
 			$value = $this->filters->filter($filterName, $value, $getterFilter->options());
