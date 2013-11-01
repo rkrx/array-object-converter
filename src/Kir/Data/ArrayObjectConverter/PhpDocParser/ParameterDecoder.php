@@ -40,7 +40,8 @@ class ParameterDecoder {
 	 * @return array
 	 */
 	private function extractValue($input) {
-		if(preg_match('/^\\".*?/', $input)) {
+		$input = ltrim($input);
+		if(preg_match('/^\\"/', $input)) {
 			return $this->extractString($input);
 		}
 		if(preg_match('/^(true|false|\\d+|\\d*\\.\\d+|null)/', $input)) {
@@ -55,7 +56,7 @@ class ParameterDecoder {
 	 */
 	private function extractString($input) {
 		$input = ltrim($input, '"');
-		list($string, $rest) = preg_split('/(?<!\\\\)"/', $input);
+		list($string, $rest) = preg_split('/(?<!\\\\)"/', $input, 2);
 		$string = strtr($string, array('\\\\' => '\\', '\\"' => '"'));
 		return array($string, $rest);
 	}

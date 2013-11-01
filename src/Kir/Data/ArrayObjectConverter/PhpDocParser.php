@@ -2,6 +2,7 @@
 namespace Kir\Data\ArrayObjectConverter;
 
 use Kir\Data\ArrayObjectConverter\PhpDocParser\ParameterDecoder;
+use Kir\Di\Exception;
 
 class PhpDocParser {
 	/**
@@ -32,16 +33,19 @@ class PhpDocParser {
 
 	/**
 	 * @param string $input
+	 * @throws \Kir\Di\Exception
 	 * @return string
 	 */
 	private function parseValue($input) {
-		$matches = array();
-		$this->regExpMatch('/^([\w\\\\]+)(\s+.*)?$/', $input, $matches);
-		$value = $matches[0];
-		$optionsStr = array_key_exists(1, $matches) ? $matches[1] : null;
-		$options = array();
-		if($optionsStr !== null) {
-			$options = $this->parseOptions($optionsStr);
+		$matches = [];
+		$options = [];
+		$value = $input;
+		if($this->regExpMatch('/^([\w\\\\]+)(\s+.*)?$/', $input, $matches)) {
+			$value = $matches[0];
+			$optionsStr = array_key_exists(1, $matches) ? $matches[1] : null;
+			if($optionsStr !== null) {
+				$options = $this->parseOptions($optionsStr);
+			}
 		}
 		return array('value' => $value, 'options' => $options);
 	}
