@@ -2,7 +2,6 @@
 namespace Kir\Data\ArrayObjectConverter;
 
 use Kir\Data\ArrayObjectConverter\PhpDocParser\ParameterDecoder;
-use Kir\Di\Exception;
 
 class PhpDocParser {
 	/**
@@ -33,7 +32,6 @@ class PhpDocParser {
 
 	/**
 	 * @param string $input
-	 * @throws \Kir\Di\Exception
 	 * @return string
 	 */
 	private function parseValue($input) {
