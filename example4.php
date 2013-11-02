@@ -34,7 +34,7 @@ class LocalArrayObjectConverter extends ArrayObjectConverter {
 
 		$this->getterHandler()->filters()->add('test', new Func(function ($value, Options $options) {
 			var_dump($value);
-			var_dump($options->getAll());
+			print_r($options->getAll());
 		}));
 	}
 }
