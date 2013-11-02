@@ -20,11 +20,11 @@ class Filters {
 
 	/**
 	 * @param string $name
-	 * @param Filter $func
+	 * @param Filter $filter
 	 * @return $this
 	 */
-	public function add($name, Filter $func) {
-		$this->filters[$name] = $func;
+	public function add($name, Filter $filter) {
+		$this->filters[$name] = $filter;
 		return $this;
 	}
 
