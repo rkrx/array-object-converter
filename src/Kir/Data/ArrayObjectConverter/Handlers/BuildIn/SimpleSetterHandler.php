@@ -7,12 +7,13 @@ use Kir\Data\ArrayObjectConverter\Exception;
 use Kir\Data\ArrayObjectConverter\Filtering\Filters;
 use Kir\Data\ArrayObjectConverter\Handlers\SetterHandler;
 use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleSetterHandler\PropertyWriter;
+use Kir\Data\ArrayObjectConverter\Reflection\ReflectionObject;
 
 class SimpleSetterHandler implements SetterHandler {
 	/**
-	 * @var object
+	 * @var ReflectionObject
 	 */
-	private $obj = null;
+	private $object = null;
 
 	/**
 	 * @var \Kir\Data\ArrayObjectConverter\Filtering\Filters
@@ -30,12 +31,12 @@ class SimpleSetterHandler implements SetterHandler {
 	private $writer = null;
 
 	/**
-	 * @param object $obj
+	 * @param object $object
 	 * @param DefinitionProvider $definitionProvider
 	 * @param \Kir\Data\ArrayObjectConverter\Filtering\Filters $filters
 	 */
-	public function __construct($obj, DefinitionProvider $definitionProvider, Filters $filters) {
-		$this->obj = $obj;
+	public function __construct($object, DefinitionProvider $definitionProvider, Filters $filters) {
+		$this->object = new ReflectionObject($object);
 		$this->filters = $filters;
 		$this->definitionProvider = $definitionProvider;
 		$this->writer = new PropertyWriter();
@@ -81,7 +82,7 @@ class SimpleSetterHandler implements SetterHandler {
 			$dataKey = $property->annotations()->getFirst('array-key')->getValue();
 			if ($dataKey == $name) {
 				$value = $this->applyFilters($property, $value);
-				$this->writer->setValue($this->obj, $property, $value);
+				$this->writer->setValue($this->object, $property, $value);
 			}
 		}
 	}

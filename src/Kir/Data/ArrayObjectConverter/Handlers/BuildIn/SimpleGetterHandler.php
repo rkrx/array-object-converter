@@ -7,10 +7,11 @@ use Kir\Data\ArrayObjectConverter\Exception;
 use Kir\Data\ArrayObjectConverter\Filtering\Filters;
 use Kir\Data\ArrayObjectConverter\Handlers\GetterHandler;
 use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleGetterHandler\PropertyReader;
+use Kir\Data\ArrayObjectConverter\Reflection\ReflectionObject;
 
 class SimpleGetterHandler implements GetterHandler {
 	/**
-	 * @var object
+	 * @var ReflectionObject
 	 */
 	private $object = null;
 
@@ -35,7 +36,7 @@ class SimpleGetterHandler implements GetterHandler {
 	 * @param \Kir\Data\ArrayObjectConverter\Filtering\Filters $filters
 	 */
 	public function __construct($object, DefinitionProvider $definitionProvider, Filters $filters) {
-		$this->object = $object;
+		$this->object = new ReflectionObject($object);
 		$this->filters = $filters;
 		$this->definitionProvider = $definitionProvider;
 		$this->reader = new PropertyReader();

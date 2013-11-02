@@ -4,68 +4,67 @@ namespace Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleGetterHandler;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
 use Kir\Data\ArrayObjectConverter\Exception;
 use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleHandler\PropertyAccessor;
+use Kir\Data\ArrayObjectConverter\Reflection\ReflectionObject;
+use Kir\Data\ArrayObjectConverter\Reflection\ReflectionProperty;
 
 class PropertyReader extends PropertyAccessor {
 	/**
-	 * @param object $object
+	 * @param ReflectionObject $object
 	 * @param Property $property
 	 * @return mixed
 	 */
-	public function getValue($object, Property $property) {
-		$refClass = new \ReflectionClass($object);
-		$refProperty = $refClass->getProperty($property->getName());
+	public function getValue(ReflectionObject $object, Property $property) {
+		$refProperty = $object->getProperty($property->getName());
 		if ($refProperty->isPublic()) {
-			return $refProperty->getValue($object);
+			$value = $refProperty->getValue();
+			return $value;
 		}
 		if ($property->annotations()->has('array-getBy')) {
 			$methodName = $property->annotations()->getFirst('array-getBy');
-			return $this->getValueFromMethod($refClass, $object, $methodName);
+			return $this->getValueFromMethod($object, $methodName);
 		}
-		return $this->tryGetValueFromGuessedMethod($object, $refProperty);
+		return $this->tryGetValueFromGuessedMethod($refProperty);
 	}
 
 	/**
-	 * @param \ReflectionClass $refClass
-	 * @param object $object
+	 * @param ReflectionObject $object
 	 * @param string $methodName
 	 * @throws \Exception
 	 * @return mixed
 	 */
-	private function getValueFromMethod(\ReflectionClass $refClass, $object, $methodName) {
-		if (!$refClass->hasMethod($methodName)) {
+	private function getValueFromMethod(ReflectionObject $object, $methodName) {
+		if (!$object->hasMethod($methodName)) {
 			throw new \Exception("Missing method {$methodName}");
 		}
-		return $refClass->getMethod($methodName)->invoke($object);
+		return $object->getMethod($methodName)->invoke();
 	}
 
 	/**
-	 * @param object $object
-	 * @param \ReflectionProperty $property
-	 * @throws Exception
+	 * @param ReflectionProperty $property
+	 * @throws \Kir\Data\ArrayObjectConverter\Exception
 	 * @return mixed
 	 */
-	private function tryGetValueFromGuessedMethod($object, \ReflectionProperty $property) {
+	private function tryGetValueFromGuessedMethod(ReflectionProperty $property) {
 		foreach ($this->getPossibleGetterMethodNames($property) as $methodName) {
-			$refClass = new \ReflectionClass($object);
-			if ($refClass->hasMethod($methodName)) {
-				$method = $refClass->getMethod($methodName);
+			if ($property->getObject()->hasMethod($methodName)) {
+				$method = $property->getObject()->getMethod($methodName);
 				if (count($method->getParameters()) > 0) {
 					continue;
 				}
-				return $method->invoke($object);
+				return $method->invoke();
 			}
 		}
 		throw new Exception("No suitable getter-method found for {$property->getName()}");
 	}
 
 	/**
-	 * @param \ReflectionProperty $refProperty
+	 * @param ReflectionProperty $refProperty
 	 * @return string[]
 	 */
-	private function getPossibleGetterMethodNames(\ReflectionProperty $refProperty) {
+	private function getPossibleGetterMethodNames(ReflectionProperty $refProperty) {
 		return array(
-			"get" . $refProperty->getName(),
 			"get" . $this->getCamelCaseMethodName($refProperty),
+			"get" . $refProperty->getName(),
 			"get_" . $refProperty->getName()
 		);
 	}

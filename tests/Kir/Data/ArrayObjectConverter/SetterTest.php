@@ -60,7 +60,7 @@ class SetterTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @param object $object
 	 * @param Filters $filters
-	 * @return \Kir\Data\ArrayObjectConverter\Handlers\\Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleSetterHandler
+	 * @return SimpleSetterHandler
 	 */
 	private function createHandler($object, Filters $filters) {
 		$provider = new PhpDocDefinitionProvider($object);

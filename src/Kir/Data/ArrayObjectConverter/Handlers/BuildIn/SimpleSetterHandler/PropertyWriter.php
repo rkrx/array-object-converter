@@ -5,71 +5,68 @@ use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider;
 use Kir\Data\ArrayObjectConverter\Exception;
 use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleHandler\PropertyAccessor;
+use Kir\Data\ArrayObjectConverter\Reflection\ReflectionObject;
+use Kir\Data\ArrayObjectConverter\Reflection\ReflectionProperty;
 
 class PropertyWriter extends PropertyAccessor {
 	/**
-	 * @param object $object
+	 * @param ReflectionObject $object $object
 	 * @param DefinitionProvider\Property $property
 	 * @param mixed $value
 	 * @return $this
 	 */
-	public function setValue($object, Property $property, $value) {
-		$refClass = new \ReflectionClass($object);
-		$refProperty = $refClass->getProperty($property->getName());
+	public function setValue(ReflectionObject $object, Property $property, $value) {
+		$refProperty = $object->getProperty($property->getName());
 		if ($refProperty->isPublic()) {
-			$refProperty->setValue($object, $value);
+			$refProperty->setValue($value);
 		} else {
-			$this->trySetValueThroughMethod($refClass, $object, $property, $value);
+			$this->trySetValueThroughMethod($object, $property, $value);
 		}
 		return $this;
 	}
 
 	/**
-	 * @param \ReflectionClass $refClass
-	 * @param object $object
+	 * @param ReflectionObject $object $object
 	 * @param DefinitionProvider\Property $property
 	 * @param mixed $value
-	 * @throws \Exception
 	 */
-	private function trySetValueThroughMethod(\ReflectionClass $refClass, $object, Property $property, $value) {
+	private function trySetValueThroughMethod(ReflectionObject $object, Property $property, $value) {
 		if ($property->annotations()->has('array-setBy')) {
 			$methodName = $property->annotations()->getFirst('array-setBy');
-			$this->setValueThroughMethod($refClass, $object, $methodName, $value);
+			$this->setValueThroughMethod($object, $methodName, $value);
 		} else {
-			$refProperty = $refClass->getProperty($property->getName());
-			$this->trySetValueThroughGuessedMethod($object, $refProperty, $value);
+			$refProperty = $object->getProperty($property->getName());
+			$this->trySetValueThroughGuessedMethod($refProperty, $value);
 		}
 	}
 
 	/**
-	 * @param \ReflectionClass $refClass
-	 * @param object $object
+	 * @param ReflectionObject $refObject
 	 * @param string $methodName
 	 * @param mixed $value
 	 * @throws \Exception
 	 */
-	private function setValueThroughMethod(\ReflectionClass $refClass, $object, $methodName, $value) {
-		if (!$refClass->hasMethod($methodName)) {
+	private function setValueThroughMethod(ReflectionObject $refObject, $methodName, $value) {
+		if (!$refObject->hasMethod($methodName)) {
 			throw new \Exception("Missing method {$methodName}");
 		}
-		$refClass->getMethod($methodName)->invokeArgs($object, [$value]);
+		$refObject->getMethod($methodName)->invokeArgs([$value]);
 	}
 
 	/**
-	 * @param object $object
-	 * @param \ReflectionProperty $refProperty
+	 * @param ReflectionProperty $refProperty
 	 * @param string $value
 	 * @throws Exception
 	 */
-	private function trySetValueThroughGuessedMethod($object, \ReflectionProperty $refProperty, $value) {
+	private function trySetValueThroughGuessedMethod(ReflectionProperty $refProperty, $value) {
 		foreach ($this->getPossibleSetterMethodNames($refProperty) as $methodName) {
-			$refClass = new \ReflectionClass($object);
-			if ($refClass->hasMethod($methodName)) {
-				$method = $refClass->getMethod($methodName);
+			$refObject = $refProperty->getObject();
+			if ($refObject->hasMethod($methodName)) {
+				$method = $refObject->getMethod($methodName);
 				if (count($method->getParameters()) != 1) {
 					continue;
 				}
-				$method->invoke($object, $value);
+				$method->invokeArgs([$value]);
 				return;
 			}
 		}
@@ -77,10 +74,10 @@ class PropertyWriter extends PropertyAccessor {
 	}
 
 	/**
-	 * @param \ReflectionProperty $refProperty
+	 * @param ReflectionProperty $refProperty
 	 * @return string[]
 	 */
-	private function getPossibleSetterMethodNames(\ReflectionProperty $refProperty) {
+	private function getPossibleSetterMethodNames(ReflectionProperty $refProperty) {
 		return array(
 			"set" . $refProperty->getName(),
 			"set" . $this->getCamelCaseMethodName($refProperty),

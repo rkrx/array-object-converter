@@ -4,6 +4,7 @@ namespace Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProv
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation;
 use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser;
 use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\Property;
+use Kir\Data\ArrayObjectConverter\Reflection\ReflectionObject;
 
 class PropertyFactory {
 	/**
@@ -22,7 +23,7 @@ class PropertyFactory {
 	 * @return Property[]
 	 */
 	public function getAll() {
-		$refObj = new \ReflectionClass($this->obj);
+		$refObj = new ReflectionObject($this->obj);
 		$properties = array();
 		foreach ($refObj->getProperties() as $refProperty) {
 			$name = $refProperty->getName();
