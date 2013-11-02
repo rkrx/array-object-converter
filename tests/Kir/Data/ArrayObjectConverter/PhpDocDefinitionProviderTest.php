@@ -1,6 +1,8 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter;
 
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
+
 class PhpDocDefinitionProviderTest extends \PHPUnit_Framework_TestCase {
 	public function testPropertyCount() {
 		$object = new Mock\TestObj2();

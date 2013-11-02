@@ -1,7 +1,9 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter;
 
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
 use Kir\Data\ArrayObjectConverter\Filter\Func;
+use Kir\Data\ArrayObjectConverter\GetterHandlers\SimpleGetterHandler;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj1;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj2;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj3;
@@ -13,7 +15,7 @@ class GetterTest extends \PHPUnit_Framework_TestCase {
 		$testObj->property = 1234;
 
 		$getter = $this->createHandler($testObj, new Filters());
-		$values = $getter->get();
+		$values = $getter->getArray();
 
 		$this->assertArrayHasKey('data', $values);
 		$this->assertEquals(1234, $values['data']);
@@ -24,7 +26,7 @@ class GetterTest extends \PHPUnit_Framework_TestCase {
 		$testObj->setProperty(1234);
 
 		$getter = $this->createHandler($testObj, new Filters());
-		$values = $getter->get();
+		$values = $getter->getArray();
 
 		$this->assertArrayHasKey('data', $values);
 		$this->assertEquals(1234, $values['data']);
@@ -42,7 +44,7 @@ class GetterTest extends \PHPUnit_Framework_TestCase {
 			})
 		);
 		$getter = $this->createHandler($testObj, $filters);
-		$values = $getter->get();
+		$values = $getter->getArray();
 
 		$this->assertArrayHasKey('data', $values);
 		$this->assertEquals("THIS IS A TEST", $values['data']);
@@ -60,7 +62,7 @@ class GetterTest extends \PHPUnit_Framework_TestCase {
 			})
 		);
 		$getter = $this->createHandler($testObj, $filters);
-		$values = $getter->get();
+		$values = $getter->getArray();
 
 		$this->assertArrayHasKey('data', $values);
 		$this->assertEquals("THIS IS A TEST", $values['data']);
@@ -69,11 +71,11 @@ class GetterTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @param object $object
 	 * @param Filters $filters
-	 * @return GetterHandler
+	 * @return SimpleGetterHandler
 	 */
 	private function createHandler($object, Filters $filters) {
 		$provider = new PhpDocDefinitionProvider($object);
-		return new GetterHandler($object, $provider, $filters);
+		return new SimpleGetterHandler($object, $provider, $filters);
 	}
 }
  

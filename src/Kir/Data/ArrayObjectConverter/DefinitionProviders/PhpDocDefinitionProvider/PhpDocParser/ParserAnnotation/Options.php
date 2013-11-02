@@ -1,5 +1,5 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser\ParserAnnotation;
+namespace Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser\ParserAnnotation;
 
 class Options implements \Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options {
 	/**

@@ -1,6 +1,8 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser;
 
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser\AnnotationParser;
+
 class AnnotationParserTest extends \PHPUnit_Framework_TestCase {
 	public function testUnparameterized() {
 		$parser = new AnnotationParser();

@@ -1,8 +1,12 @@
 <?php
 namespace Kir\Data;
 
+use Kir\Data\ArrayObjectConverter\GetterHandler;
+use Kir\Data\ArrayObjectConverter\SetterHandler;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider;
-use Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider;
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
+use Kir\Data\ArrayObjectConverter\GetterHandlers\SimpleGetterHandler;
+use Kir\Data\ArrayObjectConverter\SetterHandlers\SimpleSetterHandler;
 
 class ArrayObjectConverter {
 	/**
@@ -13,30 +17,38 @@ class ArrayObjectConverter {
 	/**
 	 * @var DefinitionProvider
 	 */
-	private $definitionProvider;
+	private $definitionProvider=null;
 
 	/**
-	 * @var ArrayObjectConverter\Filters
+	 * @var GetterHandler
 	 */
-	private $setterFilters = array();
+	private $getterHandler=null;
 
 	/**
-	 * @var ArrayObjectConverter\Filters
+	 * @var SetterHandler
 	 */
-	private $getterFilters = array();
+	private $setterHandler=null;
 
 	/**
 	 * @param object $object
 	 * @param DefinitionProvider $definitionProvider
+	 * @param GetterHandler $getterHandler
+	 * @param SetterHandler $setterHandler
 	 */
-	public function __construct($object, DefinitionProvider $definitionProvider = null) {
+	public function __construct($object, DefinitionProvider $definitionProvider = null, GetterHandler $getterHandler = null, SetterHandler $setterHandler = null) {
 		$this->object = $object;
 		if ($definitionProvider === null) {
 			$definitionProvider = new PhpDocDefinitionProvider($object);
 		}
+		if($getterHandler === null) {
+			$getterHandler = new SimpleGetterHandler($object, $definitionProvider, new ArrayObjectConverter\Filters());
+		}
+		if($setterHandler === null) {
+			$setterHandler = new SimpleSetterHandler($object, $definitionProvider, new ArrayObjectConverter\Filters());
+		}
 		$this->definitionProvider = $definitionProvider;
-		$this->setterFilters = new ArrayObjectConverter\Filters();
-		$this->getterFilters = new ArrayObjectConverter\Filters();
+		$this->getterHandler = $getterHandler;
+		$this->setterHandler = $setterHandler;
 	}
 
 	/**
@@ -44,8 +56,7 @@ class ArrayObjectConverter {
 	 * @return $this
 	 */
 	public function setArray(array $data) {
-		$setter = new ArrayObjectConverter\SetterHandler($this->object, $this->definitionProvider, $this->setterFilters);
-		$setter->set($data);
+		$this->setterHandler->setArray($data);
 		return $this;
 	}
 
@@ -53,21 +64,20 @@ class ArrayObjectConverter {
 	 * @return array
 	 */
 	public function getArray() {
-		$getter = new ArrayObjectConverter\GetterHandler($this->object, $this->definitionProvider, $this->getterFilters);
-		return $getter->get();
+		return $this->getterHandler->getArray();
 	}
 
 	/**
-	 * @return ArrayObjectConverter\Filters
+	 * @return GetterHandler
 	 */
-	public function setterFilters() {
-		return $this->setterFilters;
+	public function getterHandler() {
+		return $this->getterHandler;
 	}
 
 	/**
-	 * @return ArrayObjectConverter\Filters
+	 * @return SetterHandler
 	 */
-	public function getterFilters() {
-		return $this->getterFilters;
+	public function setterHandler() {
+		return $this->setterHandler;
 	}
 }

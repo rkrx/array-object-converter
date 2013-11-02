@@ -1,8 +1,9 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\Property;
+namespace Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\Property;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotations;
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\Property\Exception;
 
 /**
  */

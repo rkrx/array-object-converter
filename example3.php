@@ -84,11 +84,11 @@ class LocalArrayObjectConverter extends ArrayObjectConverter {
 	public function __construct($object) {
 		parent::__construct($object);
 
-		$this->setterFilters()->add('datetime', new Func(function ($value, Options $options) {
+		$this->setterHandler()->filters()->add('datetime', new Func(function ($value, Options $options) {
 			return \DateTime::createFromFormat($options->get('format'), $value);
 		}));
 
-		$this->getterFilters()->add('datetime', new Func(function (\DateTime $value, Options $options) {
+		$this->getterHandler()->filters()->add('datetime', new Func(function (\DateTime $value, Options $options) {
 			return $value->format($options->get('format'));
 		}));
 	}

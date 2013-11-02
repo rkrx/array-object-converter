@@ -1,8 +1,8 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser;
+namespace Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser;
 
 use Kir\Data\ArrayObjectConverter\Patterns\Pattern;
-use Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser\ParserAnnotation;
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser\ParserAnnotation;
 
 class AnnotationParser {
 	/**

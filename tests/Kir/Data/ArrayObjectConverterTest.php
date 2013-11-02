@@ -36,6 +36,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/*public function testRecursiveSetter() {
+		TODO
 		$data = [
 			'sub' => [
 				'id' => 1234,
@@ -54,18 +55,12 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	 */
 	private function createAoc($object) {
 		$aoc = new ArrayObjectConverter($object);
-		$aoc->getterFilters()->add(
-			'datetime',
-			new Func(function (\DateTime $input, Options $options) {
+		$aoc->getterHandler()->filters()->add('datetime', new Func(function (\DateTime $input, Options $options) {
 				return $input->format($options->get('format'));
-			})
-		);
-		$aoc->setterFilters()->add(
-			'datetime',
-			new Func(function ($input, Options $options) {
+			}));
+		$aoc->setterHandler()->filters()->add('datetime', new Func(function ($input, Options $options) {
 				return \DateTime::createFromFormat($options->get('format'), $input);
-			})
-		);
+			}));
 		return $aoc;
 	}
 } 

@@ -1,8 +1,9 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter;
+namespace Kir\Data\ArrayObjectConverter\DefinitionProviders;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
-use Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PropertyFactory;
+use Kir\Data\ArrayObjectConverter\DefinitionProvider;
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PropertyFactory;
 
 class PhpDocDefinitionProvider implements DefinitionProvider {
 	/**

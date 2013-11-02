@@ -1,24 +1,26 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter;
 
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
 use Kir\Data\ArrayObjectConverter\Filter\Func;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj1;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj2;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj3;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj4;
+use Kir\Data\ArrayObjectConverter\SetterHandlers\SimpleSetterHandler;
 
 class SetterTest extends \PHPUnit_Framework_TestCase {
 	public function testPublic() {
 		$testObj = new TestObj1();
 		$setter = $this->createHandler($testObj, new Filters());
-		$setter->set(['data' => 123]);
+		$setter->setArray(['data' => 123]);
 		$this->assertEquals(123, $testObj->property);
 	}
 
 	public function testPrivate() {
 		$testObj = new TestObj2();
 		$setter = $this->createHandler($testObj, new Filters());
-		$setter->set(['data' => 123]);
+		$setter->setArray(['data' => 123]);
 		$this->assertEquals(123, $testObj->getProperty());
 	}
 
@@ -33,7 +35,7 @@ class SetterTest extends \PHPUnit_Framework_TestCase {
 			})
 		);
 		$setter = $this->createHandler($testObj, $filters);
-		$setter->set(['data' => 'THIS IS A TEST']);
+		$setter->setArray(['data' => 'THIS IS A TEST']);
 
 		$this->assertEquals("this is a test", $testObj->property);
 	}
@@ -49,7 +51,7 @@ class SetterTest extends \PHPUnit_Framework_TestCase {
 			})
 		);
 		$setter = $this->createHandler($testObj, $filters);
-		$setter->set(['data' => 'THIS IS A TEST']);
+		$setter->setArray(['data' => 'THIS IS A TEST']);
 
 		$this->assertEquals("this is a test", $testObj->getProperty());
 	}
@@ -57,11 +59,11 @@ class SetterTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @param object $object
 	 * @param Filters $filters
-	 * @return SetterHandler
+	 * @return SimpleSetterHandler
 	 */
 	private function createHandler($object, Filters $filters) {
 		$provider = new PhpDocDefinitionProvider($object);
-		return new SetterHandler($object, $provider, $filters);
+		return new SimpleSetterHandler($object, $provider, $filters);
 	}
 }
  

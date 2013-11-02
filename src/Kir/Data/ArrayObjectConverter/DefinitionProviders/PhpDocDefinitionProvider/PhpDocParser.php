@@ -1,8 +1,8 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider;
+namespace Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
 
 use Kir\Data\ArrayObjectConverter\Patterns\Pattern;
-use Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser\AnnotationParser;
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser\AnnotationParser;
 
 class PhpDocParser {
 	/**
@@ -18,7 +18,7 @@ class PhpDocParser {
 
 	/**
 	 * @param string $input
-	 * @return PhpDocParser\ParserAnnotation[]
+	 * @return \Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser\ParserAnnotation[]
 	 */
 	public function parse($input) {
 		$result = [];

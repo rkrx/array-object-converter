@@ -1,7 +1,8 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser;
+namespace Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation;
+use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser\ParserAnnotation\Options;
 
 class ParserAnnotation implements Annotation {
 	/**
@@ -27,7 +28,7 @@ class ParserAnnotation implements Annotation {
 		$this->key = $key;
 		$this->value = array_key_exists('value', $value) ? $value['value'] : null;
 		$options = array_key_exists('options', $value) ? (array)$value['options'] : [];
-		$this->options = new ParserAnnotation\Options($options);
+		$this->options = new Options($options);
 	}
 
 	/**

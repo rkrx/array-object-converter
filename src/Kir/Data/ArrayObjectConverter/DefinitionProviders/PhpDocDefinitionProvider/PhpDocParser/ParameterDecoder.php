@@ -1,5 +1,5 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\PhpDocParser;
+namespace Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser;
 
 /**
  * Class ParameterDecoder
