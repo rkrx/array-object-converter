@@ -1,5 +1,5 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter;
+namespace Kir\Data\ArrayObjectConverter\Handlers\SimpleHandler;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
 

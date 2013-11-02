@@ -4,7 +4,6 @@ namespace Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProv
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation;
 use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider\PhpDocParser;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property AS IProperty;
-use Kir\Data\ArrayObjectConverter\PhpDocDefinitionProvider\Property\AnnotationStore;
 
 class Property implements IProperty {
 	/**

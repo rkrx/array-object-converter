@@ -1,14 +1,9 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter;
 
-interface GetterHandler {
+interface GetterHandler extends DataHandler {
 	/**
 	 * @return array
 	 */
 	public function getArray();
-
-	/**
-	 * @return Filters
-	 */
-	public function filters();
 } 

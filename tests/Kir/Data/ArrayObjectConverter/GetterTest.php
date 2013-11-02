@@ -3,7 +3,7 @@ namespace Kir\Data\ArrayObjectConverter;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
 use Kir\Data\ArrayObjectConverter\Filter\Func;
-use Kir\Data\ArrayObjectConverter\GetterHandlers\SimpleGetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj1;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj2;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj3;

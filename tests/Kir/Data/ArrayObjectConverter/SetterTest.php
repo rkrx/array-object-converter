@@ -7,7 +7,7 @@ use Kir\Data\ArrayObjectConverter\Mock\TestObj1;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj2;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj3;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj4;
-use Kir\Data\ArrayObjectConverter\SetterHandlers\SimpleSetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler;
 
 class SetterTest extends \PHPUnit_Framework_TestCase {
 	public function testPublic() {
@@ -59,7 +59,7 @@ class SetterTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @param object $object
 	 * @param Filters $filters
-	 * @return SimpleSetterHandler
+	 * @return \Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler
 	 */
 	private function createHandler($object, Filters $filters) {
 		$provider = new PhpDocDefinitionProvider($object);

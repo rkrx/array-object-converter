@@ -5,8 +5,8 @@ use Kir\Data\ArrayObjectConverter\GetterHandler;
 use Kir\Data\ArrayObjectConverter\SetterHandler;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider;
 use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
-use Kir\Data\ArrayObjectConverter\GetterHandlers\SimpleGetterHandler;
-use Kir\Data\ArrayObjectConverter\SetterHandlers\SimpleSetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler;
 
 class ArrayObjectConverter {
 	/**

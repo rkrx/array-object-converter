@@ -1,7 +1,10 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter;
+namespace Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
+use Kir\Data\ArrayObjectConverter\DefinitionProvider;
+use Kir\Data\ArrayObjectConverter\Exception;
+use Kir\Data\ArrayObjectConverter\Handlers\SimpleHandler\PropertyAccessor;
 
 class PropertyWriter extends PropertyAccessor {
 	/**

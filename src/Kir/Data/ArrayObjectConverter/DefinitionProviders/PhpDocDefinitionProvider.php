@@ -31,4 +31,11 @@ class PhpDocDefinitionProvider implements DefinitionProvider {
 	public function getProperties() {
 		return $this->properties;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function isCachable() {
+		return true;
+	}
 } 

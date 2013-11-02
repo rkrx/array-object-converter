@@ -1,12 +1,12 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\GetterHandlers;
+namespace Kir\Data\ArrayObjectConverter\Handlers;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider;
 use Kir\Data\ArrayObjectConverter\Exception;
 use Kir\Data\ArrayObjectConverter\Filters;
 use Kir\Data\ArrayObjectConverter\GetterHandler;
-use Kir\Data\ArrayObjectConverter\PropertyReader;
+use Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler\PropertyReader;
 
 class SimpleGetterHandler implements GetterHandler {
 	/**
@@ -25,7 +25,7 @@ class SimpleGetterHandler implements GetterHandler {
 	private $definitionProvider = null;
 
 	/**
-	 * @var PropertyReader
+	 * @var \Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler\PropertyReader
 	 */
 	private $reader = null;
 

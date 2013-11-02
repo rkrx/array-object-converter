@@ -1,12 +1,12 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\SetterHandlers;
+namespace Kir\Data\ArrayObjectConverter\Handlers;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider;
 use Kir\Data\ArrayObjectConverter\Exception;
 use Kir\Data\ArrayObjectConverter\Filters;
-use Kir\Data\ArrayObjectConverter\PropertyReader;
-use Kir\Data\ArrayObjectConverter\PropertyWriter;
+use Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler\PropertyReader;
+use Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler\PropertyWriter;
 use Kir\Data\ArrayObjectConverter\SetterHandler;
 
 class SimpleSetterHandler implements SetterHandler {
@@ -26,7 +26,7 @@ class SimpleSetterHandler implements SetterHandler {
 	private $definitionProvider = null;
 
 	/**
-	 * @var PropertyReader
+	 * @var \Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler\PropertyReader
 	 */
 	private $writer = null;
 
@@ -67,7 +67,7 @@ class SimpleSetterHandler implements SetterHandler {
 	private function findProperty($key, $value) {
 		$properties = $this->definitionProvider->getProperties();
 		foreach ($properties as $property) {
-			// Suche performanter gestalten
+			// TODO Suche performanter gestalten
 			$this->handleProperty($property, $key, $value);
 		}
 	}
