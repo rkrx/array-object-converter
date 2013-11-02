@@ -1,12 +1,12 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\Handlers;
+namespace Kir\Data\ArrayObjectConverter\Handlers\BuildIn;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider;
 use Kir\Data\ArrayObjectConverter\Exception;
-use Kir\Data\ArrayObjectConverter\Filters;
-use Kir\Data\ArrayObjectConverter\GetterHandler;
-use Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler\PropertyReader;
+use Kir\Data\ArrayObjectConverter\Filtering\Filters;
+use Kir\Data\ArrayObjectConverter\Handlers\GetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleGetterHandler\PropertyReader;
 
 class SimpleGetterHandler implements GetterHandler {
 	/**
@@ -15,7 +15,7 @@ class SimpleGetterHandler implements GetterHandler {
 	private $object = null;
 
 	/**
-	 * @var Filters
+	 * @var \Kir\Data\ArrayObjectConverter\Filtering\Filters
 	 */
 	private $filters = null;
 
@@ -25,14 +25,14 @@ class SimpleGetterHandler implements GetterHandler {
 	private $definitionProvider = null;
 
 	/**
-	 * @var \Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler\PropertyReader
+	 * @var \Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleGetterHandler\PropertyReader
 	 */
 	private $reader = null;
 
 	/**
 	 * @param object $object
 	 * @param DefinitionProvider $definitionProvider
-	 * @param Filters $filters
+	 * @param \Kir\Data\ArrayObjectConverter\Filtering\Filters $filters
 	 */
 	public function __construct($object, DefinitionProvider $definitionProvider, Filters $filters) {
 		$this->object = $object;

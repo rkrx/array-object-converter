@@ -1,5 +1,5 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\Handlers\SimpleHandler;
+namespace Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleHandler;
 
 use Kir\Data\ArrayObjectConverter\Exception;
 

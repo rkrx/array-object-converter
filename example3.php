@@ -4,7 +4,7 @@ namespace Example3;
 require_once '_inc/autoloader.php';
 
 use Kir\Data\ArrayObjectConverter;
-use Kir\Data\ArrayObjectConverter\Filter\Func;
+use Kir\Data\ArrayObjectConverter\Filtering\Filter\Func;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
 
 class Entity {

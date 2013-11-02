@@ -1,5 +1,5 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter;
+namespace Kir\Data\ArrayObjectConverter\Filtering;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
 

@@ -2,12 +2,13 @@
 namespace Kir\Data\ArrayObjectConverter;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
-use Kir\Data\ArrayObjectConverter\Filter\Func;
+use Kir\Data\ArrayObjectConverter\Filtering\Filter\Func;
+use Kir\Data\ArrayObjectConverter\Filtering\Filters;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj1;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj2;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj3;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj4;
-use Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleSetterHandler;
 
 class SetterTest extends \PHPUnit_Framework_TestCase {
 	public function testPublic() {
@@ -59,7 +60,7 @@ class SetterTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @param object $object
 	 * @param Filters $filters
-	 * @return \Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler
+	 * @return \Kir\Data\ArrayObjectConverter\Handlers\\Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleSetterHandler
 	 */
 	private function createHandler($object, Filters $filters) {
 		$provider = new PhpDocDefinitionProvider($object);

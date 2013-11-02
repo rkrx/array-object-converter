@@ -1,9 +1,9 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler;
+namespace Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleGetterHandler;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
 use Kir\Data\ArrayObjectConverter\Exception;
-use Kir\Data\ArrayObjectConverter\Handlers\SimpleHandler\PropertyAccessor;
+use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleHandler\PropertyAccessor;
 
 class PropertyReader extends PropertyAccessor {
 	/**

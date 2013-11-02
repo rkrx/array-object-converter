@@ -1,8 +1,8 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\Filter;
+namespace Kir\Data\ArrayObjectConverter\Filtering\Filter;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
-use Kir\Data\ArrayObjectConverter\Filter;
+use Kir\Data\ArrayObjectConverter\Filtering\Filter;
 
 class Func implements Filter {
 	/**

@@ -1,12 +1,12 @@
 <?php
 namespace Kir\Data;
 
-use Kir\Data\ArrayObjectConverter\GetterHandler;
-use Kir\Data\ArrayObjectConverter\SetterHandler;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider;
 use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
-use Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler;
-use Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleGetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleSetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\GetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\SetterHandler;
 
 class ArrayObjectConverter {
 	/**
@@ -41,10 +41,10 @@ class ArrayObjectConverter {
 			$definitionProvider = new PhpDocDefinitionProvider($object);
 		}
 		if($getterHandler === null) {
-			$getterHandler = new SimpleGetterHandler($object, $definitionProvider, new ArrayObjectConverter\Filters());
+			$getterHandler = new SimpleGetterHandler($object, $definitionProvider, new ArrayObjectConverter\Filtering\Filters());
 		}
 		if($setterHandler === null) {
-			$setterHandler = new SimpleSetterHandler($object, $definitionProvider, new ArrayObjectConverter\Filters());
+			$setterHandler = new SimpleSetterHandler($object, $definitionProvider, new ArrayObjectConverter\Filtering\Filters());
 		}
 		$this->definitionProvider = $definitionProvider;
 		$this->getterHandler = $getterHandler;

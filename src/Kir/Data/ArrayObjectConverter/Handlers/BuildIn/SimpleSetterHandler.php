@@ -1,13 +1,12 @@
 <?php
-namespace Kir\Data\ArrayObjectConverter\Handlers;
+namespace Kir\Data\ArrayObjectConverter\Handlers\BuildIn;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property;
 use Kir\Data\ArrayObjectConverter\DefinitionProvider;
 use Kir\Data\ArrayObjectConverter\Exception;
-use Kir\Data\ArrayObjectConverter\Filters;
-use Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler\PropertyReader;
-use Kir\Data\ArrayObjectConverter\Handlers\SimpleSetterHandler\PropertyWriter;
-use Kir\Data\ArrayObjectConverter\SetterHandler;
+use Kir\Data\ArrayObjectConverter\Filtering\Filters;
+use Kir\Data\ArrayObjectConverter\Handlers\SetterHandler;
+use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleSetterHandler\PropertyWriter;
 
 class SimpleSetterHandler implements SetterHandler {
 	/**
@@ -16,7 +15,7 @@ class SimpleSetterHandler implements SetterHandler {
 	private $obj = null;
 
 	/**
-	 * @var Filters
+	 * @var \Kir\Data\ArrayObjectConverter\Filtering\Filters
 	 */
 	private $filters = null;
 
@@ -26,14 +25,14 @@ class SimpleSetterHandler implements SetterHandler {
 	private $definitionProvider = null;
 
 	/**
-	 * @var \Kir\Data\ArrayObjectConverter\Handlers\SimpleGetterHandler\PropertyReader
+	 * @var \Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleGetterHandler\PropertyReader
 	 */
 	private $writer = null;
 
 	/**
 	 * @param object $obj
 	 * @param DefinitionProvider $definitionProvider
-	 * @param Filters $filters
+	 * @param \Kir\Data\ArrayObjectConverter\Filtering\Filters $filters
 	 */
 	public function __construct($obj, DefinitionProvider $definitionProvider, Filters $filters) {
 		$this->obj = $obj;
@@ -54,7 +53,7 @@ class SimpleSetterHandler implements SetterHandler {
 	}
 
 	/**
-	 * @return Filters
+	 * @return \Kir\Data\ArrayObjectConverter\Filtering\Filters
 	 */
 	public function filters() {
 		return $this->filters;

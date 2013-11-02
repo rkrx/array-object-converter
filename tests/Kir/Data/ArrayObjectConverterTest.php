@@ -2,7 +2,7 @@
 namespace Kir\Data;
 
 use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
-use Kir\Data\ArrayObjectConverter\Filter\Func;
+use Kir\Data\ArrayObjectConverter\Filtering\Filter\Func;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj5;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj6;
 
