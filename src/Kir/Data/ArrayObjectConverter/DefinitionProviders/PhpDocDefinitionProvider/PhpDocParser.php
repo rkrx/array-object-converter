@@ -28,7 +28,9 @@ class PhpDocParser {
 			if ($pattern->setSubject($line)->isMatching()) {
 				$string = $pattern->getFirst();
 				$annotation = $this->annotationParser->parseLine($string);
-				$result[] = $annotation;
+				if($annotation !== null) {
+					$result[] = $annotation;
+				}
 			}
 		}
 		return $result;
