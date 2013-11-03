@@ -1,10 +1,12 @@
 <?php
 namespace Kir\Data;
 
-use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
-use Kir\Data\ArrayObjectConverter\Filtering\Filter\Func;
+use Kir\Data\ArrayObjectConverter\Filtering\Filters\Func;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj5;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj6;
+use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
+use Kir\Data\ArrayObjectConverter\SpecificationProviders\ArraySpecificationProviders;
+use Kir\Data\ArrayObjectConverter\Specificators\PhpDocSpecificationProvider;
 
 class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	public function testObjectToArray() {
@@ -36,7 +38,6 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/*public function testRecursiveSetter() {
-		TODO
 		$data = [
 			'sub' => [
 				'id' => 1234,
@@ -55,11 +56,11 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	 */
 	private function createAoc($object) {
 		$aoc = new ArrayObjectConverter($object);
-		$aoc->getterHandler()->filters()->add('datetime', new Func(function (\DateTime $input, Options $options) {
-				return $input->format($options->get('format'));
+		$aoc->getAccessor()->getter()->filters()->add('datetime', new Func(function (\DateTime $input, Parameters $parameters) {
+				return $input->format($parameters->get('format')->getValue());
 			}));
-		$aoc->setterHandler()->filters()->add('datetime', new Func(function ($input, Options $options) {
-				return \DateTime::createFromFormat($options->get('format'), $input);
+		$aoc->getAccessor()->setter()->filters()->add('datetime', new Func(function ($input, Parameters $parameters) {
+				return \DateTime::createFromFormat($parameters->get('format')->getValue(), $input);
 			}));
 		return $aoc;
 	}

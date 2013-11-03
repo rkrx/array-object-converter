@@ -1,12 +1,12 @@
 <?php
 namespace Kir\Data;
 
-use Kir\Data\ArrayObjectConverter\DefinitionProvider;
-use Kir\Data\ArrayObjectConverter\DefinitionProviders\PhpDocDefinitionProvider;
-use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleGetterHandler;
-use Kir\Data\ArrayObjectConverter\Handlers\BuildIn\SimpleSetterHandler;
-use Kir\Data\ArrayObjectConverter\Handlers\GetterHandler;
-use Kir\Data\ArrayObjectConverter\Handlers\SetterHandler;
+use Kir\Data\ArrayObjectConverter\Accessor;
+use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor;
+use Kir\Data\ArrayObjectConverter\Specification;
+use Kir\Data\ArrayObjectConverter\SpecificationProvider;
+use Kir\Data\ArrayObjectConverter\SpecificationProviders;
+use Kir\Data\ArrayObjectConverter\Specificators\PhpDocSpecificationProvider;
 
 class ArrayObjectConverter {
 	/**
@@ -15,69 +15,52 @@ class ArrayObjectConverter {
 	private $object;
 
 	/**
-	 * @var DefinitionProvider
+	 * @var Accessor
 	 */
-	private $definitionProvider=null;
-
-	/**
-	 * @var GetterHandler
-	 */
-	private $getterHandler=null;
-
-	/**
-	 * @var SetterHandler
-	 */
-	private $setterHandler=null;
+	private $accessor=null;
 
 	/**
 	 * @param object $object
-	 * @param DefinitionProvider $definitionProvider
-	 * @param GetterHandler $getterHandler
-	 * @param SetterHandler $setterHandler
+	 * @param SpecificationProvider $specificationProvider
+	 * @param SpecificationProviders $specificationProviders
+	 * @param Accessor $accessor
 	 */
-	public function __construct($object, DefinitionProvider $definitionProvider = null, GetterHandler $getterHandler = null, SetterHandler $setterHandler = null) {
+	public function __construct($object, SpecificationProvider $specificationProvider=null, SpecificationProviders $specificationProviders=null, Accessor $accessor=null) {
 		$this->object = $object;
-		if ($definitionProvider === null) {
-			$definitionProvider = new PhpDocDefinitionProvider($object);
+		if($specificationProviders === null) {
+			$specificationProviders = new SpecificationProviders\ArraySpecificationProviders();
+			$specificationProviders->setProvider(new PhpDocSpecificationProvider($object));
 		}
-		if($getterHandler === null) {
-			$getterHandler = new SimpleGetterHandler($object, $definitionProvider, new ArrayObjectConverter\Filtering\Filters());
+		if($specificationProvider === null) {
+			$specificationProvider = $specificationProviders->getProvider();
 		}
-		if($setterHandler === null) {
-			$setterHandler = new SimpleSetterHandler($object, $definitionProvider, new ArrayObjectConverter\Filtering\Filters());
+		$specification = $specificationProvider->fromObject($object);
+		if($accessor === null) {
+			$accessor = new SimpleAccessor($object, $specification, $specificationProviders);
 		}
-		$this->definitionProvider = $definitionProvider;
-		$this->getterHandler = $getterHandler;
-		$this->setterHandler = $setterHandler;
-	}
-
-	/**
-	 * @param array $data
-	 * @return $this
-	 */
-	public function setArray(array $data) {
-		$this->setterHandler->setArray($data);
-		return $this;
+		$this->accessor = $accessor;
 	}
 
 	/**
 	 * @return array
 	 */
 	public function getArray() {
-		return $this->getterHandler->getArray();
+		return $this->accessor->getter()->getArray();
 	}
 
 	/**
-	 * @return GetterHandler
+	 * @param array $array
+	 * @return object
 	 */
-	public function getterHandler() {
-		return $this->getterHandler;
+	public function setArray(array $array) {
+		$this->accessor->setter()->setArray($array);
+		return $this->object;
 	}
 
 	/**
-	 * @return SetterHandler
+	 * @return Accessor
 	 */
-	public function setterHandler() {
-		return $this->setterHandler;
+	public function getAccessor() {
+		return $this->accessor;
 	}
 }

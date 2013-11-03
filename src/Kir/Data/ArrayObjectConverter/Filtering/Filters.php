@@ -1,56 +1,37 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\Filtering;
 
-use Kir\Data\ArrayObjectConverter\DefinitionProvider\Property\Annotation\Options;
-use Kir\Data\ArrayObjectConverter\Filtering\Filter;
+use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
 
-class Filters {
-	/**
-	 * @var Filter[]
-	 */
-	private $filters = array();
-
+interface Filters {
 	/**
 	 * @param string $name
 	 * @return bool
 	 */
-	public function has($name) {
-		return array_key_exists($name, $this->filters);
-	}
+	public function has($name);
+
+	/**
+	 * @return Filter[]
+	 */
+	public function getAll();
+
+	/**
+	 * @param string $name
+	 * @param mixed $value
+	 * @param Parameters $parameters
+	 * @return mixed
+	 */
+	public function filter($name, $value, Parameters $parameters);
 
 	/**
 	 * @param string $name
 	 * @param Filter $filter
 	 * @return $this
 	 */
-	public function add($name, Filter $filter) {
-		$this->filters[$name] = $filter;
-		return $this;
-	}
-
-	/**
-	 * @return Filter[]
-	 */
-	public function getAll() {
-		return $this->filters;
-	}
+	public function add($name, Filter $filter);
 
 	/**
 	 * @return $this
 	 */
-	public function clear() {
-		$this->filters = array();
-		return $this;
-	}
-
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 * @param Options $options
-	 * @return mixed
-	 */
-	public function filter($name, $value, Options $options) {
-		$filter = $this->filters[$name];
-		return $filter->filter($value, $options);
-	}
+	public function clear();
 }

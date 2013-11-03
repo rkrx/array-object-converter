@@ -7,7 +7,7 @@ class TestObj6 {
 	/**
 	 * @var TestObj6\SubObj
 	 * @aoc-array-key sub
-	 * @aoc-recursive
+	 * @aoc-object-handler
 	 */
 	public $subObj = null;
 
