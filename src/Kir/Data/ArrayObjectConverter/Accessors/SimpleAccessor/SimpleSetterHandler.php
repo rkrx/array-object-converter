@@ -62,12 +62,7 @@ class SimpleSetterHandler extends SimpleHandler implements SetterHandler {
 	 */
 	private function handleProperty(Property $property, $name, $newValue) {
 		if ($property->annotations()->has('array-key')) {
-			$dataKey = $property->annotations()->getFirst('array-key')->getValue();
-			if ($dataKey == $name) {
-				$oldValue = $this->reader->getValue($this->getObject(), $property);
-				$newValue = $this->applyFilters($property, $oldValue, $newValue);
-				$this->writer->setValue($this->getObject(), $property, $newValue);
-			}
+			$this->setPropertyValue($property, $name, $newValue);
 		}
 	}
 
@@ -93,5 +88,21 @@ class SimpleSetterHandler extends SimpleHandler implements SetterHandler {
 			$newValue = $this->filters()->filter($filterName, $filterProperty);
 		}
 		return $newValue;
+	}
+
+	/**
+	 * @param Property $property
+	 * @param $name
+	 * @param $newValue
+	 */
+	private function setPropertyValue(Property $property, $name, $newValue) {
+		$dataKey = $property->annotations()->getFirst('array-key')->getValue();
+		if($dataKey == $name) {
+			$oldValue = $this->reader->getValue($this->getObject(), $property);
+			$newValue = $this->applyFilters($property, $oldValue, $newValue);
+			if(!$property->annotations()->has('readonly')) {
+				$this->writer->setValue($this->getObject(), $property, $newValue);
+			}
+		}
 	}
 }

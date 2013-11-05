@@ -5,8 +5,6 @@ use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor\SimpleHandler\Propert
 use Kir\Data\ArrayObjectConverter\Filtering\Filters\Func;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj5;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj6;
-use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
-use Kir\Data\ArrayObjectConverter\SpecificationProviders\ArraySpecificationProviders;
 use Kir\Data\ArrayObjectConverter\Specificators\PhpDocSpecificationProvider;
 
 class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {

@@ -1,21 +1,21 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\Accessor\Handler;
 
-use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameter;
+use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
 
 interface Property {
 	/**
 	 * @return mixed
 	 */
-	public function getOldValue();
+	public function getPrevValue();
 
 	/**
 	 * @return mixed
 	 */
-	public function getNewValue();
+	public function getValue();
 
 	/**
-	 * @return Parameter[]
+	 * @return Parameters
 	 */
 	public function parameters();
 }

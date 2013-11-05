@@ -8,12 +8,12 @@ class Property implements IProperty {
 	/**
 	 * @var mixed
 	 */
-	private $newValue;
+	private $value;
 
 	/**
 	 * @var mixed
 	 */
-	private $oldValue;
+	private $prevValue;
 
 	/**
 	 * @var Parameters
@@ -21,28 +21,28 @@ class Property implements IProperty {
 	private $parameters;
 
 	/**
-	 * @param mixed $oldValue
-	 * @param mixed $newValue
+	 * @param mixed $prevValue
+	 * @param mixed $value
 	 * @param Parameters $parameters
 	 */
-	public function __construct($oldValue, $newValue, $parameters) {
-		$this->oldValue = $oldValue;
-		$this->newValue = $newValue;
+	public function __construct($prevValue, $value, $parameters) {
+		$this->prevValue = $prevValue;
+		$this->value = $value;
 		$this->parameters = $parameters;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getOldValue() {
-		return $this->oldValue;
+	public function getPrevValue() {
+		return $this->prevValue;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getNewValue() {
-		return $this->newValue;
+	public function getValue() {
+		return $this->value;
 	}
 
 	/**
