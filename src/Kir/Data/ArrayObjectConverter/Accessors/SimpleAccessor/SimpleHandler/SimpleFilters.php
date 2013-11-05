@@ -1,9 +1,9 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor\SimpleHandler;
 
+use Kir\Data\ArrayObjectConverter\Accessor\Handler\Property;
 use Kir\Data\ArrayObjectConverter\Filtering\Filter;
 use Kir\Data\ArrayObjectConverter\Filtering\Filters;
-use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
 
 class SimpleFilters implements Filters {
 	/**
@@ -46,12 +46,11 @@ class SimpleFilters implements Filters {
 
 	/**
 	 * @param string $name
-	 * @param mixed $value
-	 * @param Parameters $parameters
+	 * @param Property $property
 	 * @return mixed
 	 */
-	public function filter($name, $value, Parameters $parameters) {
+	public function filter($name, Property $property) {
 		$filter = $this->filters[$name];
-		return $filter->filter($value, $parameters);
+		return $filter->filter($property);
 	}
 }

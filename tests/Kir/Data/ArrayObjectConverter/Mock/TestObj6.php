@@ -7,7 +7,7 @@ class TestObj6 {
 	/**
 	 * @var TestObj6\SubObj
 	 * @aoc-array-key sub
-	 * @aoc-object-handler
+	 * @aoc-filter object
 	 */
 	public $subObj = null;
 

@@ -22,7 +22,6 @@ interface Annotations {
 
 	/**
 	 * @param string $name
-	 * @throws NoSuchAnnotationException
 	 * @return Annotation[]
 	 */
 	public function get($name);	

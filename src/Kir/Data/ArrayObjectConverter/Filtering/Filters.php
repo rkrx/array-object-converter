@@ -1,6 +1,7 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\Filtering;
 
+use Kir\Data\ArrayObjectConverter\Accessor\Handler\Property;
 use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
 
 interface Filters {
@@ -17,11 +18,10 @@ interface Filters {
 
 	/**
 	 * @param string $name
-	 * @param mixed $value
-	 * @param Parameters $parameters
+	 * @param Property $property
 	 * @return mixed
 	 */
-	public function filter($name, $value, Parameters $parameters);
+	public function filter($name, Property $property);
 
 	/**
 	 * @param string $name

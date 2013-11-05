@@ -1,8 +1,8 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\Filtering\Filters;
 
+use Kir\Data\ArrayObjectConverter\Accessor\Handler\Property;
 use Kir\Data\ArrayObjectConverter\Filtering\Filter;
-use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
 
 class Func implements Filter {
 	/**
@@ -18,12 +18,11 @@ class Func implements Filter {
 	}
 
 	/**
-	 * @param mixed $input
-	 * @param Parameters $parameters
+	 * @param Property $property
 	 * @return mixed
 	 */
-	public function filter($input, Parameters $parameters) {
+	public function filter(Property $property) {
 		$callable = $this->callable;
-		return $callable($input, $parameters);
+		return $callable($property);
 	}
 } 

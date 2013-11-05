@@ -7,6 +7,7 @@ use Kir\Data\ArrayObjectConverter\Exception;
 use Kir\Data\ArrayObjectConverter\Specification\Property;
 use Kir\Data\ArrayObjectConverter\Specification;
 use Kir\Data\ArrayObjectConverter\SpecificationProviders;
+use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor\SimpleHandler\Property AS FilterProperty;
 
 class SimpleGetterHandler extends SimpleHandler implements GetterHandler {
 	/**
@@ -56,16 +57,18 @@ class SimpleGetterHandler extends SimpleHandler implements GetterHandler {
 	 * @return mixed
 	 */
 	private function applyFilters(Property $property, $value) {
-		if (!$property->annotations()->has('getter-filter')) {
+		$annotations = $property->annotations();
+		if (!($annotations->has('filter') || $annotations->has('getter-filter'))) {
 			return $value;
 		}
-		$getterFilters = $property->annotations()->get('getter-filter');
+		$getterFilters = $annotations->get('getter-filter') + $annotations->get('filter');
 		foreach ($getterFilters as $getterFilter) {
 			$filterName = $getterFilter->getValue();
 			if (!$this->filters()->has($filterName)) {
 				throw new Exception("Getter-filter missing: {$filterName}");
 			}
-			$value = $this->filters()->filter($filterName, $value, $getterFilter->parameters());
+			$filterProperty = new FilterProperty($value, $value, $getterFilter->parameters());
+			$value = $this->filters()->filter($filterName, $filterProperty);
 		}
 		return $value;
 	}

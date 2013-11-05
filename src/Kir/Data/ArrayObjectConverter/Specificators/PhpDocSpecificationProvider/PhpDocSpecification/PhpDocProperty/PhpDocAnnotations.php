@@ -50,6 +50,9 @@ class PhpDocAnnotations implements Annotations {
 	 * @return Annotation
 	 */
 	public function getFirst($name) {
+		if(!$this->has($name)) {
+			throw new NoSuchAnnotationException($name);
+		}
 		$annotations = $this->get($name);
 		return $annotations[0];
 	}
@@ -61,7 +64,7 @@ class PhpDocAnnotations implements Annotations {
 	 */
 	public function get($name) {
 		if(!$this->has($name)) {
-			throw new NoSuchAnnotationException($name);
+			return [];
 		}
 		return $this->annotations[$name];
 	}

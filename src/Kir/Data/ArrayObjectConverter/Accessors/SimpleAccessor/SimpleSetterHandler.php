@@ -2,18 +2,25 @@
 namespace Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor;
 
 use Kir\Data\ArrayObjectConverter\Accessor\SetterHandler;
+use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor\SimpleGetterHandler\Reader;
 use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor\SimpleSetterHandler\Writer;
 use Kir\Data\ArrayObjectConverter\Exception;
-use Kir\Data\ArrayObjectConverter\Specification\Property;
 use Kir\Data\ArrayObjectConverter\Specification;
+use Kir\Data\ArrayObjectConverter\Specification\Property;
 use Kir\Data\ArrayObjectConverter\SpecificationProviders;
+use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor\SimpleHandler\Property AS FilterProperty;
 
 class SimpleSetterHandler extends SimpleHandler implements SetterHandler {
 	/**
-	 * @var 
+	 * @var Writer
 	 */
 	private $writer=null;
 	
+	/**
+	 * @var Reader
+	 */
+	private $reader=null;
+
 	/**
 	 * @param object $object
 	 * @param Specification $specification
@@ -22,6 +29,7 @@ class SimpleSetterHandler extends SimpleHandler implements SetterHandler {
 	public function __construct($object, Specification $specification, SpecificationProviders $specificationProviders) {
 		parent::__construct($object, $specification, $specificationProviders);
 		$this->writer = new Writer();
+		$this->reader = new Reader();
 	}
 	
 	/**
@@ -50,36 +58,40 @@ class SimpleSetterHandler extends SimpleHandler implements SetterHandler {
 	/**
 	 * @param Property $property
 	 * @param $name
-	 * @param $value
+	 * @param $newValue
 	 */
-	private function handleProperty(Property $property, $name, $value) {
+	private function handleProperty(Property $property, $name, $newValue) {
 		if ($property->annotations()->has('array-key')) {
 			$dataKey = $property->annotations()->getFirst('array-key')->getValue();
 			if ($dataKey == $name) {
-				$value = $this->applyFilters($property, $value);
-				$this->writer->setValue($this->getObject(), $property, $value);
+				$oldValue = $this->reader->getValue($this->getObject(), $property);
+				$newValue = $this->applyFilters($property, $oldValue, $newValue);
+				$this->writer->setValue($this->getObject(), $property, $newValue);
 			}
 		}
 	}
 
 	/**
 	 * @param Property $property
-	 * @param mixed $value
+	 * @param mixed $newValue
+	 * @param mixed $oldValue
 	 * @throws \Kir\Data\ArrayObjectConverter\Exception
 	 * @return mixed
 	 */
-	private function applyFilters(Property $property, $value) {
-		if (!$property->annotations()->has('setter-filter')) {
-			return $value;
+	private function applyFilters(Property $property, $oldValue, $newValue) {
+		$annotations = $property->annotations();
+		if (!($annotations->has('setter-filter') || $annotations->has('filter'))) {
+			return $newValue;
 		}
-		$setterFilters = $property->annotations()->get('setter-filter');
+		$setterFilters = $annotations->get('setter-filter') + $annotations->get('filter');
 		foreach ($setterFilters as $setterFilter) {
 			$filterName = $setterFilter->getValue();
 			if (!$this->filters()->has($filterName)) {
 				throw new Exception("Setter-filter missing: {$filterName}");
 			}
-			$value = $this->filters()->filter($filterName, $value, $setterFilter->parameters());
+			$filterProperty = new FilterProperty($oldValue, $newValue, $setterFilter->parameters());
+			$newValue = $this->filters()->filter($filterName, $filterProperty);
 		}
-		return $value;
+		return $newValue;
 	}
 }

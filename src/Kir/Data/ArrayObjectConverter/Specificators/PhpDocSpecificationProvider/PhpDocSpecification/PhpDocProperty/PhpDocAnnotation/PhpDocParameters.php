@@ -48,7 +48,7 @@ class PhpDocParameters implements Parameters {
 	 */
 	public function get($name) {
 		if(!$this->has($name)) {
-			throw new NoSuchParameterException($name);
+			return [];
 		}
 		return $this->params[$this->paramNames[$name]];
 	}
