@@ -18,10 +18,9 @@ class SimpleGetterHandler extends SimpleHandler implements GetterHandler {
 	/**
 	 * @param object $object
 	 * @param Specification $specification
-	 * @param SpecificationProviders $specificationProviders
 	 */
-	public function __construct($object, Specification $specification, SpecificationProviders $specificationProviders) {
-		parent::__construct($object, $specification, $specificationProviders);
+	public function __construct($object, Specification $specification) {
+		parent::__construct($object, $specification);
 		$this->reader = new Reader();
 	}
 	

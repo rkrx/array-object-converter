@@ -22,9 +22,9 @@ class SimpleAccessor implements Accessor {
 	
 	/**
 	 */
-	public function __construct($object, Specification $specification, SpecificationProviders $specificationProviders) {
-		$this->getter = new SimpleGetterHandler($object, $specification, $specificationProviders);
-		$this->setter = new SimpleSetterHandler($object, $specification, $specificationProviders);
+	public function __construct($object, Specification $specification) {
+		$this->getter = new SimpleGetterHandler($object, $specification);
+		$this->setter = new SimpleSetterHandler($object, $specification);
 	}
 
 	/**

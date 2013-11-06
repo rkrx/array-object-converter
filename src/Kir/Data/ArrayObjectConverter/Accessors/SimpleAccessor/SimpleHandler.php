@@ -21,11 +21,6 @@ abstract class SimpleHandler implements Handler {
 	private $specification=null;
 
 	/**
-	 * @var SpecificationProviders
-	 */
-	private $specificationProviders=null;
-
-	/**
 	 * @var \Kir\Data\ArrayObjectConverter\Filtering\Filters
 	 */
 	private $filters=null;
@@ -33,12 +28,10 @@ abstract class SimpleHandler implements Handler {
 	/**
 	 * @param object $object
 	 * @param Specification $specification
-	 * @param SpecificationProviders $specificationProviders
 	 */
-	public function __construct($object, Specification $specification, SpecificationProviders $specificationProviders) {
+	public function __construct($object, Specification $specification) {
 		$this->object = new ReflObject($object);
 		$this->specification = $specification;
-		$this->specificationProviders = $specificationProviders;
 		$this->filters = new SimpleFilters();
 	}
 
@@ -54,13 +47,6 @@ abstract class SimpleHandler implements Handler {
 	 */
 	final protected function getSpecification() {
 		return $this->specification;
-	}
-
-	/**
-	 * @return SpecificationProviders
-	 */
-	final protected function getSpecificationProviders() {
-		return $this->specificationProviders;
 	}
 
 	/**

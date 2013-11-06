@@ -23,25 +23,20 @@ class ArrayObjectConverter {
 	/**
 	 * @param object $object
 	 * @param SpecificationProvider $specificationProvider
-	 * @param SpecificationProviders $specificationProviders
 	 * @param Accessor $accessor
 	 * @throws ArrayObjectConverter\Exception
 	 */
-	public function __construct($object, SpecificationProvider $specificationProvider=null, SpecificationProviders $specificationProviders=null, Accessor $accessor=null) {
+	public function __construct($object, SpecificationProvider $specificationProvider=null, Accessor $accessor=null) {
 		if(!is_object($object)) {
 			throw new Exception("Cant work with a non-object");
 		}
 		$this->object = $object;
-		if($specificationProviders === null) {
-			$specificationProviders = new SpecificationProviders\ArraySpecificationProviders();
-			$specificationProviders->setProvider(new PhpDocSpecificationProvider($object));
-		}
 		if($specificationProvider === null) {
-			$specificationProvider = $specificationProviders->getProvider();
+			$specificationProvider = new PhpDocSpecificationProvider();
 		}
 		$specification = $specificationProvider->fromObject($object);
 		if($accessor === null) {
-			$accessor = new SimpleAccessor($object, $specification, $specificationProviders);
+			$accessor = new SimpleAccessor($object, $specification);
 		}
 		$this->accessor = $accessor;
 	}

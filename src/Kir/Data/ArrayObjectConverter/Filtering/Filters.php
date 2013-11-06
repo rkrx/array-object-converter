@@ -2,7 +2,6 @@
 namespace Kir\Data\ArrayObjectConverter\Filtering;
 
 use Kir\Data\ArrayObjectConverter\Accessor\Handler\Property;
-use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
 
 interface Filters {
 	/**
