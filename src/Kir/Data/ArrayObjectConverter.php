@@ -3,6 +3,7 @@ namespace Kir\Data;
 
 use Kir\Data\ArrayObjectConverter\Accessor;
 use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor;
+use Kir\Data\ArrayObjectConverter\Exception;
 use Kir\Data\ArrayObjectConverter\Specification;
 use Kir\Data\ArrayObjectConverter\SpecificationProvider;
 use Kir\Data\ArrayObjectConverter\SpecificationProviders;
@@ -24,8 +25,12 @@ class ArrayObjectConverter {
 	 * @param SpecificationProvider $specificationProvider
 	 * @param SpecificationProviders $specificationProviders
 	 * @param Accessor $accessor
+	 * @throws ArrayObjectConverter\Exception
 	 */
 	public function __construct($object, SpecificationProvider $specificationProvider=null, SpecificationProviders $specificationProviders=null, Accessor $accessor=null) {
+		if(!is_object($object)) {
+			throw new Exception("Cant work with a ono-object");
+		}
 		$this->object = $object;
 		if($specificationProviders === null) {
 			$specificationProviders = new SpecificationProviders\ArraySpecificationProviders();
