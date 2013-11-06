@@ -87,23 +87,35 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	 */
 	private function createAoc($object) {
 		$aoc = new ArrayObjectConverter($object);
+		$this->injectDatetimeFiltersIntoAoc($aoc);
+		$this->injectObjectFilterIntoAoc($aoc);
+		return $aoc;
+	}
 
+	/**
+	 * @param $aoc
+	 */
+	private function injectDatetimeFiltersIntoAoc($aoc) {
 		$aoc->getAccessor()->getter()->filters()->add('datetime', new Func(function (Property $property) {
 			/* @var $datetime \DateTime */
 			$datetime = $property->getValue();
 			return $datetime->format($property->parameters()->get('format')->getValue());
 		}));
 		$aoc->getAccessor()->setter()->filters()->add('datetime', new Func(function (Property $property) {
-			return \DateTime::createFromFormat($property->parameters()->get('format')->getValue(), $property->getValue());
+			return \DateTime::createFromFormat($property->parameters()->get('format')
+				->getValue(), $property->getValue());
 		}));
+	}
 
+	/**
+	 * @param $aoc
+	 */
+	private function injectObjectFilterIntoAoc($aoc) {
 		$aoc->getAccessor()->getter()->filters()->add('object', new Func(function (Property $property) {
 			return $this->createAoc($property->getPrevValue())->getArray($property->getValue());
 		}));
 		$aoc->getAccessor()->setter()->filters()->add('object', new Func(function (Property $property) {
 			return $this->createAoc($property->getPrevValue())->setArray($property->getValue());
 		}));
-
-		return $aoc;
 	}
 } 
