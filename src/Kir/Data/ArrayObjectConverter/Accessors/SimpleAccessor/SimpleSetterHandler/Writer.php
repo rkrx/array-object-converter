@@ -30,8 +30,8 @@ class Writer extends SimpleAccessor {
 	 * @param mixed $value
 	 */
 	private function trySetValueThroughMethod(ReflObject $object, Property $property, $value) {
-		if ($property->annotations()->has('array-setBy')) {
-			$methodName = $property->annotations()->getFirst('array-setBy');
+		if ($property->annotations()->has('array-set-by')) {
+			$methodName = $property->annotations()->getFirst('array-set-by');
 			$this->setValueThroughMethod($object, $methodName, $value);
 		} else {
 			$refProperty = $object->getProperty($property->getName());

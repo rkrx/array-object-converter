@@ -46,6 +46,13 @@ class ReflObject {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getName() {
+		return $this->refObject->getName();
+	}
+
+	/**
 	 * @return ReflProperty[]
 	 */
 	public function getProperties() {

@@ -5,6 +5,7 @@ use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor\SimpleHandler\Propert
 use Kir\Data\ArrayObjectConverter\Filtering\Filters\Func;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj5;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj6;
+use Kir\Data\ArrayObjectConverter\Mock\TestObj7;
 use Kir\Data\ArrayObjectConverter\Specificators\PhpDocSpecificationProvider;
 
 class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
@@ -59,6 +60,28 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 */
+	public function testSetBy() {
+		$obj = new TestObj7();
+		$obj->setIsActive(false);
+		$this->assertEquals(false, $obj->isActive());
+		$aoc = $this->createAoc($obj);
+		$aoc->setArray(['active' => true]);
+		$this->assertEquals(true, $obj->isActive());
+	}
+
+	/**
+	 */
+	public function testGetBy() {
+		$obj = new TestObj7();
+		$obj->setIsActive(true);
+		$aoc = $this->createAoc($obj);
+		$data = $aoc->getArray();
+		$this->assertArrayHasKey('active', $data);
+		$this->assertEquals(true, $data['active']);
+	}
+
+	/**
 	 * @param object $object
 	 * @return ArrayObjectConverter
 	 */
@@ -67,18 +90,18 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 
 		$aoc->getAccessor()->getter()->filters()->add('datetime', new Func(function (Property $property) {
 			/* @var $datetime \DateTime */
-			$datetime = $property->getNewValue();
+			$datetime = $property->getValue();
 			return $datetime->format($property->parameters()->get('format')->getValue());
 		}));
 		$aoc->getAccessor()->setter()->filters()->add('datetime', new Func(function (Property $property) {
-			return \DateTime::createFromFormat($property->parameters()->get('format')->getValue(), $property->getNewValue());
+			return \DateTime::createFromFormat($property->parameters()->get('format')->getValue(), $property->getValue());
 		}));
 
 		$aoc->getAccessor()->getter()->filters()->add('object', new Func(function (Property $property) {
-			return $this->createAoc($property->getOldValue())->getArray($property->getNewValue());
+			return $this->createAoc($property->getPrevValue())->getArray($property->getValue());
 		}));
 		$aoc->getAccessor()->setter()->filters()->add('object', new Func(function (Property $property) {
-			return $this->createAoc($property->getOldValue())->setArray($property->getNewValue());
+			return $this->createAoc($property->getPrevValue())->setArray($property->getValue());
 		}));
 
 		return $aoc;
