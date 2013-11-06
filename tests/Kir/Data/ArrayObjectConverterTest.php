@@ -6,6 +6,7 @@ use Kir\Data\ArrayObjectConverter\Filtering\Filters\Func;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj5;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj6;
 use Kir\Data\ArrayObjectConverter\Mock\TestObj7;
+use Kir\Data\ArrayObjectConverter\Mock\TestObj8;
 use Kir\Data\ArrayObjectConverter\Specificators\PhpDocSpecificationProvider;
 
 class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
@@ -75,6 +76,23 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	public function testGetBy() {
 		$obj = new TestObj7();
 		$obj->setIsActive(true);
+		$aoc = $this->createAoc($obj);
+		$data = $aoc->getArray();
+		$this->assertArrayHasKey('active', $data);
+		$this->assertEquals(true, $data['active']);
+	}
+
+	public function testForceWriteToProperty() {
+		$obj = new TestObj8();
+		$obj->setActiveX(false);
+		$aoc = $this->createAoc($obj);
+		$aoc->setArray(['active' => true]);
+		$this->assertEquals(true, $obj->getActiveX());
+	}
+
+	public function testForceReadFromProperty() {
+		$obj = new TestObj8();
+		$obj->setActiveX(true);
 		$aoc = $this->createAoc($obj);
 		$data = $aoc->getArray();
 		$this->assertArrayHasKey('active', $data);

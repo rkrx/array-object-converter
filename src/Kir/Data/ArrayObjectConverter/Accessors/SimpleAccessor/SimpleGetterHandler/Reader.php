@@ -17,21 +17,22 @@ class Reader extends SimpleAccessor {
 		if ($refProperty->isPublic()) {
 			$value = $refProperty->getValue();
 			return $value;
-		}
-		if ($property->annotations()->has('get-by')) {
-			$methodName = $property->annotations()->getFirst('get-by')->getValue();
-			return $this->getValueFromMethod($object, $methodName);
+		} elseif($property->annotations()->has('force-access')) {
+			return $this->forceGetValueFromProperty($object, $property);
+		} elseif ($property->annotations()->has('get-by')) {
+			return $this->getValueFromMethod($object, $property);
 		}
 		return $this->tryGetValueFromGuessedMethod($refProperty);
 	}
 
 	/**
 	 * @param ReflObject $object
-	 * @param string $methodName
+	 * @param Property $property
 	 * @throws \Exception
 	 * @return mixed
 	 */
-	private function getValueFromMethod(ReflObject $object, $methodName) {
+	private function getValueFromMethod(ReflObject $object, Property $property) {
+		$methodName = $property->annotations()->getFirst('get-by')->getValue();
 		if (!$object->hasMethod($methodName)) {
 			throw new \Exception("Missing method {$methodName}");
 		}
@@ -66,5 +67,16 @@ class Reader extends SimpleAccessor {
 			"get" . $property->getName(),
 			"get_" . $property->getName()
 		);
+	}
+
+	/**
+	 * @param ReflObject $object
+	 * @param Property $property
+	 * @return mixed
+	 */
+	private function forceGetValueFromProperty(ReflObject $object, Property $property) {
+		$propertyName = $property->getName();
+		$reflProperty = $object->getProperty($propertyName);
+		return $reflProperty->forceGetValue();
 	}
 } 

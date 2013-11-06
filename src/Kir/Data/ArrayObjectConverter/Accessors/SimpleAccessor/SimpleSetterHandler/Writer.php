@@ -30,7 +30,9 @@ class Writer extends SimpleAccessor {
 	 * @param mixed $value
 	 */
 	private function trySetValueThroughMethod(ReflObject $object, Property $property, $value) {
-		if ($property->annotations()->has('set-by')) {
+		if($property->annotations()->has('force-access')) {
+			$this->forceSetValueToProperty($object, $property, $value);
+		} elseif ($property->annotations()->has('set-by')) {
 			$methodName = $property->annotations()->getFirst('set-by')->getValue();
 			$this->setValueThroughMethod($object, $methodName, $value);
 		} else {
@@ -82,5 +84,16 @@ class Writer extends SimpleAccessor {
 			"set" . $this->getCamelCaseMethodName($refProperty),
 			"set_" . $refProperty->getName()
 		);
+	}
+
+	/**
+	 * @param ReflObject $object
+	 * @param Property $property
+	 * @param mixed $value
+	 */
+	private function forceSetValueToProperty(ReflObject $object, Property $property, $value) {
+		$propertyName = $property->getName();
+		$reflProperty = $object->getProperty($propertyName);
+		$reflProperty->forceSetValue($value);
 	}
 } 

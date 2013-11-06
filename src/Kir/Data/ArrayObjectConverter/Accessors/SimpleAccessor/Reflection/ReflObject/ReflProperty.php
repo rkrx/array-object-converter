@@ -66,4 +66,32 @@ class ReflProperty {
 		$this->property->setValue($this->object->getObject(), $value);
 		return $this;
 	}
+
+	/**
+	 * @param mixed $value
+	 * @return $this
+	 */
+	public function forceSetValue($value) {
+		$accessible = true;
+		if(!$this->property->isPublic()) {
+			$accessible = false;
+			$this->property->setAccessible(true);
+		}
+		$this->setValue($value);
+		$this->property->setAccessible($accessible);
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function forceGetValue() {
+		$accessible = true;
+		if(!$this->property->isPublic()) {
+			$accessible = false;
+			$this->property->setAccessible(true);
+		}
+		$result = $this->getValue();
+		$this->property->setAccessible($accessible);
+		return $result;
+	}
 } 
