@@ -29,7 +29,7 @@ class ArrayObjectConverter {
 	 */
 	public function __construct($object, SpecificationProvider $specificationProvider=null, SpecificationProviders $specificationProviders=null, Accessor $accessor=null) {
 		if(!is_object($object)) {
-			throw new Exception("Cant work with a ono-object");
+			throw new Exception("Cant work with a non-object");
 		}
 		$this->object = $object;
 		if($specificationProviders === null) {
