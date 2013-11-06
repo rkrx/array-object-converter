@@ -18,8 +18,8 @@ class Reader extends SimpleAccessor {
 			$value = $refProperty->getValue();
 			return $value;
 		}
-		if ($property->annotations()->has('array-get-by')) {
-			$methodName = $property->annotations()->getFirst('array-get-by');
+		if ($property->annotations()->has('get-by')) {
+			$methodName = $property->annotations()->getFirst('get-by')->getValue();
 			return $this->getValueFromMethod($object, $methodName);
 		}
 		return $this->tryGetValueFromGuessedMethod($refProperty);

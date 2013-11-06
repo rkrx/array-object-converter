@@ -5,10 +5,10 @@ class TestObj7 {
 	/**
 	 * @var TestObj6\SubObj
 	 * @aoc-array-key active
-	 * @aoc-get-by object
-	 * @aoc-set-by object
+	 * @aoc-get-by isActive
+	 * @aoc-set-by setIsActive
 	 */
-	public $active = null;
+	private $active = null;
 
 	/**
 	 * @return bool
