@@ -5,7 +5,7 @@ require_once '_inc/autoloader.php';
 
 use Kir\Data\ArrayObjectConverter;
 use Kir\Data\ArrayObjectConverter\Filtering\Filters\Func;
-use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
+use Kir\Data\ArrayObjectConverter\Accessor\Handler\Property;
 
 class Entity {
 	/**
@@ -32,9 +32,8 @@ class LocalArrayObjectConverter extends ArrayObjectConverter {
 	public function __construct($object) {
 		parent::__construct($object);
 
-		$this->getAccessor()->getter()->filters()->add('test', new Func(function ($value, Parameters $parameters) {
-				var_dump($value);
-				foreach($parameters->getAll() as $parameter) {
+		$this->getAccessor()->getter()->filters()->add('test', new Func(function (Property $property) {
+				foreach($property->parameters()->getAll() as $parameter) {
 					echo sprintf("%s: %s\n", $parameter->getName(), json_encode($parameter->getValue()));
 				}
 			}));

@@ -5,7 +5,7 @@ require_once '_inc/autoloader.php';
 
 use Kir\Data\ArrayObjectConverter;
 use Kir\Data\ArrayObjectConverter\Filtering\Filters\Func;
-use Kir\Data\ArrayObjectConverter\Specification\Property\Annotation\Parameters;
+use Kir\Data\ArrayObjectConverter\Accessor\Handler\Property;
 
 class Entity {
 	/**
@@ -84,12 +84,12 @@ class LocalArrayObjectConverter extends ArrayObjectConverter {
 	public function __construct($object) {
 		parent::__construct($object);
 
-		$this->getAccessor()->setter()->filters()->add('datetime', new Func(function ($value, Parameters $parameters) {
-			return \DateTime::createFromFormat($parameters->getValue('format', 'Y-m-d\\TH:i:sO'), $value);
+		$this->getAccessor()->setter()->filters()->add('datetime', new Func(function (Property $property) {
+			return \DateTime::createFromFormat($property->parameters()->getValue('format', 'Y-m-d\\TH:i:sO'), $property->getValue());
 		}));
 
-		$this->getAccessor()->getter()->filters()->add('datetime', new Func(function (\DateTime $value, Parameters $parameters) {
-			return $value->format($parameters->getValue('format', 'Y-m-d\\TH:i:sO'));
+		$this->getAccessor()->getter()->filters()->add('datetime', new Func(function (Property $property) {
+			return $property->getValue()->format($property->parameters()->getValue('format', 'Y-m-d\\TH:i:sO'));
 		}));
 	}
 }
