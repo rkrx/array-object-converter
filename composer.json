@@ -8,7 +8,7 @@
 		"email": "ron.kirschler@gmail.com"
 	}],
 	"minimum-stability": "stable",
-	"autoloader": {
+	"autoload": {
 		"psr-0": {
 			"Kir\\Data\\": "src/"
 		}
