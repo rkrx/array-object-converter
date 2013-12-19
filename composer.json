@@ -1,0 +1,15 @@
+{
+    "name": "rkr/array-object-converter",
+    "description": "A module to copy data from an array to an object, vice versa.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ron kirschler",
+            "email": "ron.kirschler@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+
+    }
+}
