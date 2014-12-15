@@ -1,12 +1,14 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\Mock;
 
-class TestObj2 {
+class Subject4 {
 	/**
-	 * @var int
+	 * @var string
 	 * @aoc-array-key data
+	 * @aoc-getter-filter uppercase
+	 * @aoc-setter-filter lowercase
 	 */
-	private $property = 123;
+	private $property = "this is a test";
 
 	/**
 	 * @param int $property

@@ -1,7 +1,7 @@
 <?php
 namespace Kir\Data\ArrayObjectConverter\Mock;
 
-class TestObj7 {
+class Subject7 {
 	/**
 	 * @var TestObj6\SubObj
 	 * @aoc-array-key active

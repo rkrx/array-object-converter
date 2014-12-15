@@ -3,15 +3,15 @@ namespace Kir\Data;
 
 use Kir\Data\ArrayObjectConverter\Accessors\SimpleAccessor\SimpleHandler\Property;
 use Kir\Data\ArrayObjectConverter\Filtering\Filters\Func;
-use Kir\Data\ArrayObjectConverter\Mock\TestObj5;
-use Kir\Data\ArrayObjectConverter\Mock\TestObj6;
-use Kir\Data\ArrayObjectConverter\Mock\TestObj7;
-use Kir\Data\ArrayObjectConverter\Mock\TestObj8;
+use Kir\Data\ArrayObjectConverter\Mock\Subject5;
+use Kir\Data\ArrayObjectConverter\Mock\Subject6;
+use Kir\Data\ArrayObjectConverter\Mock\Subject7;
+use Kir\Data\ArrayObjectConverter\Mock\Subject8;
 use Kir\Data\ArrayObjectConverter\Specificators\PhpDocSpecificationProvider;
 
 class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	public function testObjectToArray() {
-		$object = new TestObj5();
+		$object = new Subject5();
 		$object->setId(123);
 		$object->setName('Max Musterman');
 		$object->setBirthdate(\DateTime::createFromFormat('Y-m-d', '1981-09-29'));
@@ -30,7 +30,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 			'birthdate' => '1981-09-29',
 		];
 
-		$object = new TestObj5();
+		$object = new Subject5();
 		$this->createAoc($object)->setArray($data);
 
 		$this->assertEquals(123, $object->getId());
@@ -39,7 +39,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testRecursiveGetter() {
-		$object = new TestObj6();
+		$object = new Subject6();
 		$object->subObj->id = 123;
 
 		$data = $this->createAoc($object)->getArray();
@@ -54,7 +54,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 			]
 		];
 
-		$object = new TestObj6();
+		$object = new Subject6();
 		$this->createAoc($object)->setArray($data);
 
 		$this->assertEquals(1234, $object->subObj->id);
@@ -63,7 +63,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 */
 	public function testSetBy() {
-		$obj = new TestObj7();
+		$obj = new Subject7();
 		$obj->setIsActive(false);
 		$this->assertEquals(false, $obj->isActive());
 		$aoc = $this->createAoc($obj);
@@ -74,7 +74,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 */
 	public function testGetBy() {
-		$obj = new TestObj7();
+		$obj = new Subject7();
 		$obj->setIsActive(true);
 		$aoc = $this->createAoc($obj);
 		$data = $aoc->getArray();
@@ -83,7 +83,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testForceWriteToProperty() {
-		$obj = new TestObj8();
+		$obj = new Subject8();
 		$obj->setActiveX(false);
 		$aoc = $this->createAoc($obj);
 		$aoc->setArray(['active' => true]);
@@ -91,7 +91,7 @@ class ArrayObjectConverterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testForceReadFromProperty() {
-		$obj = new TestObj8();
+		$obj = new Subject8();
 		$obj->setActiveX(true);
 		$aoc = $this->createAoc($obj);
 		$data = $aoc->getArray();
