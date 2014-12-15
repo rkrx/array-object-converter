@@ -9,7 +9,7 @@
 	}],
 	"minimum-stability": "stable",
 	"autoload": {
-		"psr-0": {
+		"psr-4": {
 			"Kir\\Data\\": "src/"
 		}
 	},

@@ -1,2 +1,8 @@
-.idea
-/vendor/
+/*
+!/src
+!/tests
+!/.gitignore
+!/composer.json
+!/LICENSE
+!/README.md
+!/tests.xml

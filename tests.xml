@@ -6,10 +6,7 @@
 		 timeoutForSmallTests="5">
 	<testsuites>
 		<testsuite name="ArrayObjectConverter">
-			<file>tests/Kir/Data/ArrayObjectConverter/Specificators/PhpDocSpecificationProvider/PhpDocSpecification/PhpDocProperty/PhpDocParser/ParameterDecoderTest.php</file>
-			<file>tests/Kir/Data/ArrayObjectConverter/Specificators/PhpDocSpecificationProvider/PhpDocSpecification/PhpDocProperty/PhpDocParser/AnnotationParserTest.php</file>
-			<file>tests/Kir/Data/ArrayObjectConverter/Specificators/PhpDocSpecificationProviderTest.php</file>
-			<file>tests/Kir/Data/ArrayObjectConverterTest.php</file>
+			<directory>tests</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
