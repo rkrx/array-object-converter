@@ -26,7 +26,7 @@ class ArrayObjectConverter {
 	 * @param Accessor $accessor
 	 * @throws ArrayObjectConverter\Exception
 	 */
-	public function __construct($object, SpecificationProvider ?$specificationProvider = null, ?Accessor $accessor = null) {
+	public function __construct($object, ?SpecificationProvider $specificationProvider = null, ?Accessor $accessor = null) {
 		if(!is_object($object)) {
 			throw new Exception("Cant work with a non-object");
 		}
